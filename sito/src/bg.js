@@ -1,11 +1,12 @@
 // Full-screen liquid background: domain-warped noise in a single fragment shader.
 // uDark blends the palette from pale pastel to deep navy so the whole page "pours" into the dark chapter.
 const VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-const FS = `precision highp float;
+const FS = (oct) => `precision highp float;
+#define OCT ${oct}
 uniform vec2 uRes;uniform float uTime;uniform vec2 uMouse;uniform float uDark;uniform float uScroll;
 float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
-float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.02+vec2(3.1,1.7);a*=.5;}return v;}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<OCT;i++){v+=a*n(p);p=p*2.02+vec2(3.1,1.7);a*=.5;}return v;}
 void main(){
   vec2 p=(gl_FragCoord.xy-.5*uRes)/min(uRes.x,uRes.y);
   p.y+=uScroll*.35;
@@ -38,7 +39,8 @@ export function startFluid(canvas, { reduced = false } = {}) {
   if (!gl) return null;
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
   const prog = gl.createProgram();
-  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+  const small = matchMedia('(max-width: 760px)').matches;
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS(small ? 4 : 5)));
   gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
   gl.useProgram(prog);
@@ -50,14 +52,16 @@ export function startFluid(canvas, { reduced = false } = {}) {
 
   const state = { dark: 0, darkTarget: 0, mx: .5, my: .5, tx: .5, ty: .5, scroll: 0 };
   // The gradient is smooth, so a lower internal resolution is invisible and keeps it cheap.
-  const scale = Math.min(devicePixelRatio || 1, 1) * .6;
+  const scale = small ? .42 : .6;
   function resize() {
     canvas.width = Math.max(2, Math.round(innerWidth * scale)); canvas.height = Math.max(2, Math.round(innerHeight * scale));
     gl.viewport(0, 0, canvas.width, canvas.height);
   }
+  // The drift is slow, so ~40fps is indistinguishable from 60 and saves battery.
   let raf = 0, last = 0, time = 12;
   function frame(now) {
     raf = 0;
+    if (!reduced && now - last < 24) { raf = requestAnimationFrame(frame); return; }
     const dt = Math.min(.05, (now - last) / 1000 || 0); last = now; time += dt;
     state.mx += (state.tx - state.mx) * .05; state.my += (state.ty - state.my) * .05;
     state.dark += (state.darkTarget - state.dark) * Math.min(1, dt * 2.6);
