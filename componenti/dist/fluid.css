@@ -1,8 +1,8 @@
 /* Home: liquid background instead of the blue grid stage and the coin/receipt photo.
    The page sits on one fixed WebGL canvas; .dark (set while the studio or product chapter is centred)
    turns both the canvas and every text token navy-dark, so headings stay readable during the change. */
-body[data-page=home]{--fx-ink:#101010;--fx-ink-2:#3a3a41;--fx-ink-3:#56565d;--fx-hair:rgba(16,16,16,.1);--fx-glass:rgba(255,255,255,.62);background:#eef3fb;color:var(--fx-ink);transition:color .6s cubic-bezier(.22,1,.36,1)}
-body[data-page=home].dark{--fx-ink:#f5f5f7;--fx-ink-2:#d2d2d7;--fx-ink-3:#a1a1a6;--fx-hair:rgba(255,255,255,.14);--fx-glass:rgba(22,27,46,.55)}
+body[data-page=home]{--fx-ink:#101010;--fx-ink-2:#3a3a41;--fx-ink-3:#56565d;--fx-hair:rgba(16,16,16,.1);--fx-glass:rgba(255,255,255,.62);--fx-film:rgba(241,241,241,.88);background:#f1f1f1;color:var(--fx-ink);transition:color .6s cubic-bezier(.22,1,.36,1)}
+body[data-page=home].dark{--fx-ink:#f5f5f7;--fx-ink-2:#d2d2d7;--fx-ink-3:#a1a1a6;--fx-hair:rgba(255,255,255,.14);--fx-glass:rgba(22,27,46,.55);--fx-film:rgba(7,11,30,.5)}
 body[data-page=home].no-fluid{background:linear-gradient(160deg,#eef3fb,#dbe7ff 60%,#efe8ff) fixed}
 body[data-page=home].no-fluid.dark{background:#070d22}
 #fluid{position:fixed;inset:0;width:100%;height:100%;z-index:-1;display:block;pointer-events:none}
@@ -27,8 +27,8 @@ body[data-page=home].dark .ledger-button:not(.secondary):hover{background:#245ee
 body[data-page=home].dark .ledger-button.secondary{background:rgba(255,255,255,.12)}
 body[data-page=home].dark .ledger-button.secondary:hover{background:rgba(255,255,255,.2)}
 
-/* footer: translucent instead of a white slab */
-body[data-page=home] .ledger-footer{background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--fx-hair)}
+/* footer: closes the light film, a touch brighter */
+body[data-page=home] .ledger-footer{position:relative;background:rgba(246,246,247,.95);border-top:1px solid var(--fx-hair)}
 body[data-page=home] .footer-top p,body[data-page=home] .footer-top>div:not(:first-child){color:var(--fx-ink-2)}
 body[data-page=home] .ledger-footer .footer-bottom{border-top-color:var(--fx-hair);color:var(--fx-ink-3)}
 
@@ -69,3 +69,19 @@ body[data-page=home] .statement-alt a{color:var(--fx-ink);text-decoration:underl
   body[data-page=home] .product-copy h2{font-size:52px}
   body[data-page=home] .product-copy p{font-size:17px}
 }
+
+
+/* Hero as in the original site: flat light surface. The card behind the phone is a window onto the
+   liquid canvas: the window is transparent and its 100vmax spread shadow paints the original #f1f1f1
+   around it, so opening the card to full bleed (ledger-motion render) needs no clip-path. */
+body[data-page=home] .ledger-intro{background:#f1f1f1}
+body[data-page=home] .journey-stage{isolation:isolate}
+body[data-page=home] .journey-frame{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+body[data-page=home] .journey-window{position:absolute;top:0;left:16px;right:16px;height:100%;border-radius:32px;box-shadow:0 0 0 100vmax #f1f1f1,inset 0 0 0 1px rgba(16,24,48,.06)}
+
+/* After the phone story the page rides on a light matte film: the sections' own background, with a
+   feathered top edge. In motion mode the film is pulled up over the last pinned screen (app.js), so it
+   slides across the phone as it fades. Its colour follows the theme, keeping the light/navy chapters. */
+body[data-page=home] :is(.ledger-about,.ledger-platform,.ledger-product,.ledger-statement){position:relative;background-color:var(--fx-film);transition:color .6s cubic-bezier(.22,1,.36,1),background-color .6s cubic-bezier(.22,1,.36,1)}
+body[data-page=home] .ledger-about::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:var(--feather,12vh);background-color:var(--fx-film);-webkit-mask:linear-gradient(to bottom,transparent,rgba(0,0,0,.06) 18%,rgba(0,0,0,.22) 36%,rgba(0,0,0,.5) 56%,rgba(0,0,0,.8) 78%,#000);mask:linear-gradient(to bottom,transparent,rgba(0,0,0,.06) 18%,rgba(0,0,0,.22) 36%,rgba(0,0,0,.5) 56%,rgba(0,0,0,.8) 78%,#000);transition:background-color .6s cubic-bezier(.22,1,.36,1);pointer-events:none}
+@media(prefers-reduced-transparency:reduce){body[data-page=home]{--fx-film:#f1f1f1}body[data-page=home].dark{--fx-film:#0b1230}}

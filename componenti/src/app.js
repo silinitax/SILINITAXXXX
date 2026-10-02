@@ -42,7 +42,7 @@ const principles=[
 ];
 function home(){return `<main id="main">
 <section class="ledger-intro"><div class="intro-copy"><h1>Tutto il tuo fisco.<br> In una sola app.</h1><p>Incassi, tasse e scadenze in una vista chiara.<br> Con il supporto delle persone di Studio Silini.</p><div class="ledger-actions"><a class="ledger-button" href="#funzioni">Esplora l’app<span class="button-symbol">${appIcon('r-arrow-down')}</span></a>${cta('Parla con lo studio',true)}</div></div></section>
-<section class="ledger-journey" aria-label="Esplora l’app SiliniTax, schermate illustrative"><div class="journey-stage">${ledgerExperience(appIcon,appLogo,appYear,screens)}<nav class="journey-tabs" aria-label="Funzioni dell’app">${features.map(([label],i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}">${label}</button>`).join('')}</nav></div></section>
+<section class="ledger-journey" aria-label="Esplora l’app SiliniTax, schermate illustrative"><div class="journey-stage"><div class="journey-frame" aria-hidden="true"><div class="journey-window"></div></div>${ledgerExperience(appIcon,appLogo,appYear,screens)}<nav class="journey-tabs" aria-label="Funzioni dell’app">${features.map(([label],i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}">${label}</button>`).join('')}</nav></div></section>
 <section class="ledger-about" id="studio"><h2 class="about-title">I numeri aiutano.<br> Le persone<br> <span>chiariscono.</span></h2><div class="about-summary"><p>Crediamo che il fisco debba essere più comprensibile. L’app mette in ordine le informazioni. Le persone dello studio ti aiutano a leggerle e a scegliere il prossimo passo.</p><a class="ledger-button secondary" href="/chi-siamo/">Il nostro approccio</a></div></section>
 <section class="ledger-platform" id="funzioni"><div class="platform-stage"><div class="feature-deck">${features.map(([label,title,copy,icon],i)=>`<article class="deck-card card-${i}"><div class="deck-icon">${appIcon(icon)}</div><h3>${label}</h3><p>${copy}</p></article>`).join('')}</div><h2>La tua attività.<br> Più semplice<br> da leggere.</h2></div></section>
 <section class="ledger-product" id="come-lavoriamo"><div class="product-layout"><div class="product-copy"><h2>Meno dubbi.<br> Più chiarezza.</h2><p>Parti dai tuoi dati, poi confrontati con lo studio.</p><div class="ledger-actions">${cta()}<a class="ledger-button secondary" href="/prezzi/">Esplora i piani</a></div></div><ol class="work-steps">${principles.map(([title,copy])=>`<li><h3>${title}</h3><p>${copy}</p></li>`).join('')}</ol></div></section>
@@ -64,11 +64,12 @@ if(page==='home'){
  const fluid=startFluid(fluidCanvas,{reduced:reducedMotion});
  if(!fluid)document.body.classList.add('no-fluid');
  const themeMeta=document.querySelector('meta[name=theme-color]');
- const darkChapters=['.ledger-about','.ledger-product'].map(sel=>ScrollTrigger.create({trigger:sel,start:'top 50%',end:'bottom 50%',refreshPriority:-1,onToggle:applyTheme}));
+ // The studio chapter turns navy once the light film has carried its title up the screen.
+ const darkChapters=[['.ledger-about','top 25%'],['.ledger-product','top 50%']].map(([sel,start])=>ScrollTrigger.create({trigger:sel,start,end:'bottom 50%',refreshPriority:-1,onToggle:applyTheme}));
  function applyTheme(){
   const dark=darkChapters.some(t=>t.isActive);
   document.body.classList.toggle('dark',dark);
-  if(themeMeta)themeMeta.content=dark?'#050a1c':'#eef3fb';
+  if(themeMeta)themeMeta.content=dark?'#050a1c':'#f1f1f1';
   if(fluid)fluid.setDark(dark?1:0);
  }
  if(fluid)ScrollTrigger.create({start:0,end:'max',refreshPriority:-1,onUpdate:self=>fluid.setScroll(self.progress)});
@@ -78,24 +79,51 @@ if(page==='home'){
  let journey;
  const approach=()=>track(window.scrollY,0,intro.offsetHeight);
  const update=p=>render(p,approach());
+ // Hand-off after the phone story: everything after it sits on a light matte film (the sections'
+ // own background, feathered at the top). The pin holds the phone one screen longer and the film is
+ // pulled up to overlap that screen, so it slides over the phone, which loses focus and fades.
+ const about=document.querySelector('.ledger-about');
+ const storyLen=()=>innerHeight*(innerWidth<761?3.5:4),handoffLen=()=>innerHeight;
+ const storyShare=()=>storyLen()/(storyLen()+handoffLen());
+ const feather=()=>Math.round(innerHeight*.3);
+ // The pinned stage (75dvh, held 25% down) ends at the bottom of the screen, so pulling the film up by
+ // one hand-off minus its feather makes the feathered edge enter exactly when the hand-off starts.
+ // Runs on refreshInit, before ScrollTrigger measures, so the dark-chapter triggers see the final layout.
+ const overlapFilm=()=>{about.style.setProperty('--feather',feather()+'px');about.style.marginTop=-(handoffLen()-feather())+'px';};
+ function handoff(e){
+  const fade=track(e,.15,.85);
+  stage.style.opacity=fade?String(1-fade):'';
+  stage.style.visibility=fade===1?'hidden':'';
+  stage.style.filter=fade?`blur(${(12*fade).toFixed(2)}px)`:'';
+  stage.style.scale=fade?String(1-.06*fade):'';
+  stage.style.translate=fade?`0 ${(-4*fade).toFixed(2)}vh`:'';
+ }
+ const advance=t=>{const share=storyShare();update(Math.min(1,t/share));handoff(Math.max(0,(t-share)/(1-share)));};
  update(Math.max(0,Math.min(1,(scrollY-intro.offsetHeight+innerHeight*.25)/(innerHeight*(innerWidth<761?3.5:4)))));
  mm.add('(prefers-reduced-motion: no-preference)',()=>{
   document.body.classList.add('motion-ledger');
+  overlapFilm();ScrollTrigger.addEventListener('refreshInit',overlapFilm);
   ScrollTrigger.create({trigger:section,start:()=>`top ${intro.offsetHeight}px`,end:()=>`top ${innerHeight*.25}px`,invalidateOnRefresh:true,onUpdate:()=>{if(!journey||journey.progress()===0)update(0);},onRefresh:()=>{if(!journey||journey.progress()===0)update(0);}});
-  journey=gsap.to({progress:0},{progress:1,ease:'none',scrollTrigger:{trigger:section,start:()=>`top ${innerHeight*.25}px`,end:()=>'+='+innerHeight*(innerWidth<761?3.5:4),pin:stage,scrub:.32,invalidateOnRefresh:true},onUpdate:function(){update(this.progress())}});
+  journey=gsap.to({progress:0},{progress:1,ease:'none',scrollTrigger:{trigger:section,start:()=>`top ${innerHeight*.25}px`,end:()=>'+='+(storyLen()+handoffLen()),pin:stage,scrub:.32,invalidateOnRefresh:true},onUpdate:function(){advance(this.progress())}});
   gsap.from('.intro-copy>*',{y:18,opacity:0,duration:.7,stagger:.08,ease:'power2.out'});
-  gsap.from('.about-title',{y:65,opacity:0,scrollTrigger:{trigger:'.ledger-about',start:'top 70%',end:'top 15%',scrub:1}});
+  gsap.from('.about-title',{y:65,opacity:0,scrollTrigger:{trigger:'.ledger-about',start:'top bottom',end:'top 30%',scrub:1}});
   const cards=gsap.utils.toArray('.deck-card');
   const tl=gsap.timeline({scrollTrigger:{trigger:'.ledger-platform',start:'top top',end:()=>'+='+innerHeight*2.4,pin:'.platform-stage',scrub:.7,invalidateOnRefresh:true}});
   cards.forEach((c,i)=>{gsap.set(c,{zIndex:i+1,rotation:i%2?5:-5,y:i*9});if(i>0)gsap.set(c,{y:700,rotation:12});if(i>0)tl.to(c,{y:0,rotation:i%2?4:-4,duration:1},i-.2);});
   gsap.from('.ledger-statement h2',{opacity:.15,scrollTrigger:{trigger:'.ledger-statement',start:'top 85%',end:'top 35%',scrub:1}});
-  return()=>{journey=null;document.body.classList.remove('motion-ledger');};
+  return()=>{
+   journey=null;handoff(0);document.body.classList.remove('motion-ledger');
+   ScrollTrigger.removeEventListener('refreshInit',overlapFilm);about.style.marginTop='';about.style.removeProperty('--feather');
+  };
  });
- mm.add('(prefers-reduced-motion: reduce)',()=>{document.body.classList.add('reduced-ledger');render(cardStops()[0],1,true);return()=>document.body.classList.remove('reduced-ledger');});
- tabs.forEach((b,i)=>b.addEventListener('click',()=>{if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+(st.end-st.start)*cardStops()[i],behavior:'smooth'});}else{render(i===3?.96:cardStops()[i],1,true);}}));
- actions.forEach((b,i)=>b.addEventListener('click',()=>{const stop=[.51,.75,.96][i];if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+(st.end-st.start)*stop,behavior:'smooth'});}else render(stop,1,true);}));
- document.fonts.ready.then(()=>{measure();ScrollTrigger.refresh();if(journey)update(journey.scrollTrigger.progress);});
- addEventListener('pageshow',()=>{if(journey)update(journey.scrollTrigger.progress);});
- addEventListener('resize',()=>{measure();if(journey)update(journey.progress());});
+ mm.add('(prefers-reduced-motion: reduce)',()=>{
+  document.body.classList.add('reduced-ledger');render(cardStops()[0],1,true);
+  return()=>document.body.classList.remove('reduced-ledger');
+ });
+ tabs.forEach((b,i)=>b.addEventListener('click',()=>{if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+storyLen()*cardStops()[i],behavior:'smooth'});}else{render(i===3?.96:cardStops()[i],1,true);}}));
+ actions.forEach((b,i)=>b.addEventListener('click',()=>{const stop=[.51,.75,.96][i];if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+storyLen()*stop,behavior:'smooth'});}else render(stop,1,true);}));
+ document.fonts.ready.then(()=>{measure();ScrollTrigger.refresh();if(journey)advance(journey.progress());});
+ addEventListener('pageshow',()=>{if(journey)advance(journey.progress());});
+ addEventListener('resize',()=>{measure();if(journey)advance(journey.progress());});
 }
 addEventListener('pagehide',()=>mm.revert(),{once:true});

@@ -24,7 +24,7 @@ export function createLedgerMotion(section){
  actions.forEach((action,i)=>{actionHosts[i].append(action);action.querySelectorAll('span').forEach(el=>el.setAttribute('aria-hidden','true'));});
  section.querySelector('.story-actions').remove();
  const notices=['payment','tax','invoice'].map(name=>section.querySelector('.regia-'+name));
- const background=section.querySelector('.journey-background');
+ const win=section.querySelector('.journey-window');
  const invoiceRow=views[1].querySelector('.appui-invoices>div');
  const pending=views[0].querySelector('.story-pending');
  const transitions=[[.285,.345],[.555,.62],[.775,.835]];
@@ -51,7 +51,9 @@ export function createLedgerMotion(section){
   const top=before?mix(initialTop,resting,approach):mix(entranceTop,finalTop,entry);
   gsap.set(phone,{scale,xPercent:-50,yPercent:0,x:0,y:top,top:0});
   const bottom=mobile?h*.18:Math.max(0,h-530);
-  if(background)gsap.set(background,{height:h,y:-anchor*entry,clipPath:`inset(0px ${(mobile?12:16)*(1-entry)}px ${bottom*(1-entry)}px round ${32*(1-entry)}px)`});
+  // The card behind the phone is a window onto the page's liquid background; it opens to full bleed
+  // with the same insets the old clip-path used (the area around it is painted by the window's spread shadow).
+  if(win){const side=(mobile?12:16)*(1-entry);gsap.set(win,{y:-anchor*entry,left:side,right:side,height:h-bottom*(1-entry),borderRadius:32*(1-entry)});}
   let active=0;
   views.forEach((view,i)=>{
    const enter=i?track(p,...transitions[i-1]):1;
