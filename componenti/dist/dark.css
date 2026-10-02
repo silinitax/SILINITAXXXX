@@ -30,7 +30,8 @@ body[data-page=home] .journey-background{box-shadow:0 0 120px #2457e644}
 body[data-page=home] .journey-tabs{background:#0d1530d9;border:1px solid #ffffff24;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 body[data-page=home] .journey-tabs button{color:#b4c1e0}
 body[data-page=home] .journey-tabs button[aria-pressed=true]{background:#3d7bff;color:#fff;box-shadow:0 4px 18px #3d7bff77}
-body[data-page=home] .ledger-phone{filter:drop-shadow(0 40px 60px #000a) drop-shadow(0 0 40px #3d7bff33)}
+/* no will-change/filter: the phone is scaled up to 1.6x and must re-rasterise crisp instead of stretching a small bitmap */
+body[data-page=home] .ledger-phone{will-change:auto;filter:none;backface-visibility:hidden}
 
 /* about + product sections */
 body[data-page=home] .ledger-about,body[data-page=home] .ledger-product{background:#060b1a;position:relative}

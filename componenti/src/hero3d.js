@@ -16,7 +16,7 @@ export function mountHero3D(host, { reduced = false } = {}) {
   let renderer;
   try { renderer = new WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' }); }
   catch { return null; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   const canvas = renderer.domElement;
   canvas.className = 'hero3d-canvas';
   canvas.setAttribute('aria-hidden', 'true');
