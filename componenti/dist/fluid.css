@@ -36,3 +36,36 @@ body[data-page=home] .ledger-footer .footer-bottom{border-top-color:var(--fx-hai
 
 /* headings break evenly instead of leaving one word alone on a line (e.g. "fisco" on phones) */
 body[data-page=home] :is(h1,h2){text-wrap:balance}
+
+/* type: display tracking stops at -0.04em so letters no longer touch */
+body[data-page=home] main :is(h1,h2){letter-spacing:-.04em}
+
+/* the deck section lost its kicker column: deck + heading only, the pair centred */
+@media(min-width:761px){
+  body[data-page=home] .platform-stage{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  body[data-page=home] .feature-deck{width:min(470px,100%);justify-self:end}
+}
+
+/* "Meno dubbi. Più chiarezza.": how the studio works with you, no second phone */
+body[data-page=home] .ledger-product{padding:clamp(96px,11vw,150px) 6.25%}
+body[data-page=home] .product-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:clamp(40px,6vw,96px);margin-top:0}
+body[data-page=home] .product-copy{grid-row:auto}
+body[data-page=home] .product-copy h2{font-size:clamp(52px,6.4vw,96px);line-height:1.02}
+body[data-page=home] .product-copy p{margin:28px 0 0;font-size:19px;line-height:1.5;color:var(--fx-ink-2);max-width:26em}
+body[data-page=home] .product-copy .ledger-actions{margin-top:34px}
+body[data-page=home] .work-steps{list-style:none;margin:0;padding:0}
+body[data-page=home] .work-steps li{padding:28px 0 30px;border-top:1px solid var(--fx-hair);transition:border-color .6s}
+body[data-page=home] .work-steps h3{font-size:clamp(24px,2.3vw,32px);line-height:1.15;letter-spacing:-.03em;font-weight:600}
+body[data-page=home] .work-steps p{margin-top:10px;font-size:17px;line-height:1.55;color:var(--fx-ink-2);max-width:30em}
+
+/* closing: email stays one tap away from the WhatsApp button */
+body[data-page=home] .statement-alt{margin-top:18px;font-size:15px;color:var(--fx-ink-2)}
+body[data-page=home] .statement-alt a{color:var(--fx-ink);text-decoration:underline;text-underline-offset:3px}
+
+@media(max-width:760px){
+  body[data-page=home] .platform-stage>h2{grid-row:1}
+  body[data-page=home] .feature-deck{grid-row:2}
+  body[data-page=home] .product-layout{grid-template-columns:1fr;gap:44px}
+  body[data-page=home] .product-copy h2{font-size:52px}
+  body[data-page=home] .product-copy p{font-size:17px}
+}

@@ -62,7 +62,8 @@ export function startFluid(canvas, { reduced = false } = {}) {
   function frame(now) {
     raf = 0;
     if (!reduced && now - last < 24) { raf = requestAnimationFrame(frame); return; }
-    const dt = Math.min(.05, (now - last) / 1000 || 0); last = now; time += dt;
+    // Reduced motion draws one still frame; keep it identical on every load.
+    const dt = reduced ? 0 : Math.min(.05, (now - last) / 1000 || 0); last = now; time += dt;
     state.mx += (state.tx - state.mx) * .05; state.my += (state.ty - state.my) * .05;
     state.dark += (state.darkTarget - state.dark) * Math.min(1, dt * 2.6);
     gl.uniform2f(uRes, canvas.width, canvas.height); gl.uniform1f(uTime, time);
