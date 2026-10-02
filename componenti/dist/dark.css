@@ -1,0 +1,67 @@
+/* SiliniTax home: dark premium theme. Scoped to the home so the other pages keep their current look. */
+body[data-page=home]{--ink:#f4f6fb;--muted:#9aa6c0;--line:#ffffff1f;--glow:#3d7bff;background:#060b1a;color:#f4f6fb}
+body[data-page=home] main{background:#060b1a}
+body[data-page=home] .skip:focus{background:#fff;color:#0b1f45}
+
+/* nav: dark glass */
+body[data-page=home] .ledger-nav{background:#0d1530b8;backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid #ffffff1c;box-shadow:0 10px 40px #00000066,inset 0 1px 0 #ffffff14}
+body[data-page=home] .ledger-logo{color:#fff}
+body[data-page=home] .ledger-logo strong{color:#6f9bff}
+body[data-page=home] .ledger-nav nav a{color:#aab6d3}
+body[data-page=home] .ledger-nav nav a:hover{color:#fff}
+body[data-page=home] .ledger-button{background:linear-gradient(135deg,#3d7bff,#2457e6);color:#fff;box-shadow:0 8px 30px #2457e666,inset 0 1px 0 #ffffff40}
+body[data-page=home] .ledger-button:hover{background:linear-gradient(135deg,#5b92ff,#2f66f5);box-shadow:0 12px 40px #3d7bff88,inset 0 1px 0 #ffffff55}
+body[data-page=home] .ledger-button.secondary{background:#ffffff14;color:#e8eeff;border:1px solid #ffffff26;box-shadow:none;backdrop-filter:blur(10px)}
+body[data-page=home] .ledger-button.secondary:hover{background:#ffffff26}
+body[data-page=home] .ledger-label{color:#7fa5ff;letter-spacing:.08em}
+
+/* hero */
+body[data-page=home] .ledger-intro{position:relative;color:#fff;background:radial-gradient(70% 90% at 50% 0%,#14307a 0%,#0a1534 45%,#060b1a 100%)}
+body[data-page=home] .ledger-intro::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(70% 80% at 50% 30%,#000,transparent);mask-image:radial-gradient(70% 80% at 50% 30%,#000,transparent)}
+body[data-page=home] .hero3d-canvas{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;pointer-events:none}
+body[data-page=home] .intro-copy{position:relative;z-index:3}
+body[data-page=home] .intro-copy>h1{color:#fff;text-shadow:0 4px 60px #3d7bff55;background:linear-gradient(180deg,#fff 30%,#a9c3ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+body[data-page=home] .intro-copy>p{color:#b6c3e3}
+body[data-page=home] .intro-copy .ledger-button:not(.secondary) .plus,body[data-page=home] .intro-copy .ledger-button span{color:#fff}
+
+/* scroll journey keeps its blue stage; add depth */
+body[data-page=home] .ledger-journey{background:#060b1a}
+body[data-page=home] .journey-background{box-shadow:0 0 120px #2457e644}
+body[data-page=home] .journey-tabs{background:#0d1530d9;border:1px solid #ffffff24;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+body[data-page=home] .journey-tabs button{color:#b4c1e0}
+body[data-page=home] .journey-tabs button[aria-pressed=true]{background:#3d7bff;color:#fff;box-shadow:0 4px 18px #3d7bff77}
+body[data-page=home] .ledger-phone{filter:drop-shadow(0 40px 60px #000a) drop-shadow(0 0 40px #3d7bff33)}
+
+/* about + product sections */
+body[data-page=home] .ledger-about,body[data-page=home] .ledger-product{background:#060b1a;position:relative}
+body[data-page=home] .ledger-about::before,body[data-page=home] .ledger-product::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(45% 40% at 85% 20%,#2457e633,transparent 70%),radial-gradient(35% 35% at 10% 90%,#6b3dff22,transparent 70%)}
+body[data-page=home] .ledger-about>*,body[data-page=home] .ledger-product>*{position:relative}
+body[data-page=home] .about-title span{background:linear-gradient(90deg,#6f9bff,#a98bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* feature deck: glass cards on dark */
+body[data-page=home] .ledger-platform{background:linear-gradient(#060b1a,#0a1330 60%,#060b1a)}
+body[data-page=home] .platform-stage h2,body[data-page=home] .ledger-platform h2{color:#fff}
+body[data-page=home] .ledger-platform p{color:#aab6d3}
+body[data-page=home] .deck-card{box-shadow:0 30px 70px #000a,0 0 0 1px #ffffff1f inset,0 0 60px #2457e633;border:1px solid #ffffff22}
+
+body[data-page=home] .ledger-capabilities{background:#060b1a;border-top:1px solid #ffffff14}
+body[data-page=home] .ledger-capabilities>p{color:#8b98b8}
+body[data-page=home] .ledger-capabilities span{color:#e8eeff}
+body[data-page=home] .ledger-capabilities .appui-icon{color:#6f9bff}
+
+body[data-page=home] .ledger-statement{background:radial-gradient(60% 90% at 50% 100%,#1a3f9e66,#060b1a 70%);color:#fff}
+body[data-page=home] .ledger-statement h2{color:#fff}
+
+body[data-page=home] .ledger-footer{background:#04070f;border-top:1px solid #ffffff14}
+body[data-page=home] .footer-top h3{color:#fff}
+body[data-page=home] .footer-top p,body[data-page=home] .footer-top>div:not(:first-child){color:#8b98b8}
+body[data-page=home] .footer-top a:hover{color:#fff}
+body[data-page=home] .ledger-footer .footer-bottom{border-top-color:#ffffff14;color:#6e7a99}
+
+@media(prefers-reduced-motion:reduce){body[data-page=home] .intro-copy>h1{text-shadow:none}}
+
+/* deck cards: layered blue-glass family instead of flat black */
+body[data-page=home] .card-0{background:linear-gradient(155deg,#2a63ff,#1437a3)}
+body[data-page=home] .card-1{background:linear-gradient(160deg,#0f1f4d,#2a59b8)}
+body[data-page=home] .card-2{background:linear-gradient(155deg,#101a38,#3a3f8f)}
+body[data-page=home] .card-3{background:linear-gradient(155deg,#0b1430,#1f6fc0)}

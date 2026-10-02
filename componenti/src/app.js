@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { createLedgerMotion, ledgerExperience, cardStops, track } from './ledger-motion';
+import { mountHero3D } from './hero3d';
 gsap.registerPlugin(ScrollTrigger);
 const page=document.body.dataset.page;
 const mail='mailto:info@studiosilini.it?subject=Informazioni%20SiliniTax';
@@ -55,8 +56,20 @@ if(page==='home'){
  const approach=()=>track(window.scrollY,0,intro.offsetHeight);
  const update=p=>render(p,approach());
  update(Math.max(0,Math.min(1,(scrollY-intro.offsetHeight+innerHeight*.25)/(innerHeight*(innerWidth<761?3.5:4)))));
+ const hero3d=mountHero3D(intro,{reduced:matchMedia('(prefers-reduced-motion: reduce)').matches});
+ if(hero3d)addEventListener('pagehide',()=>hero3d.dispose(),{once:true});
  mm.add('(prefers-reduced-motion: no-preference)',()=>{
   document.body.classList.add('motion-ledger');
+  // The phone follows the pointer while it is still the hero object, then settles for the scroll story.
+  const tilt={x:0,y:0,tx:0,ty:0};
+  const onTilt=e=>{tilt.tx=(e.clientX/innerWidth*2-1)*9;tilt.ty=-(e.clientY/innerHeight*2-1)*6;};
+  if(innerWidth>760)addEventListener('pointermove',onTilt,{passive:true});
+  const tickTilt=()=>{
+   const phone=section.querySelector('.ledger-phone'),k=1-track(journey?journey.progress():0,0,.08);
+   tilt.x+=(tilt.tx-tilt.x)*.08;tilt.y+=(tilt.ty-tilt.y)*.08;
+   gsap.set(phone,{transformPerspective:1400,rotationY:tilt.x*k,rotationX:tilt.y*k});
+  };
+  gsap.ticker.add(tickTilt);
   ScrollTrigger.create({trigger:section,start:()=>`top ${intro.offsetHeight}px`,end:()=>`top ${innerHeight*.25}px`,invalidateOnRefresh:true,onUpdate:()=>{if(!journey||journey.progress()===0)update(0);},onRefresh:()=>{if(!journey||journey.progress()===0)update(0);}});
   journey=gsap.to({progress:0},{progress:1,ease:'none',scrollTrigger:{trigger:section,start:()=>`top ${innerHeight*.25}px`,end:()=>'+='+innerHeight*(innerWidth<761?3.5:4),pin:stage,scrub:.32,invalidateOnRefresh:true},onUpdate:function(){update(this.progress())}});
   gsap.from('.intro-copy>*',{y:18,opacity:0,duration:.7,stagger:.08,ease:'power2.out'});
@@ -65,7 +78,7 @@ if(page==='home'){
   const tl=gsap.timeline({scrollTrigger:{trigger:'.ledger-platform',start:'top top',end:()=>'+='+innerHeight*2.4,pin:'.platform-stage',scrub:.7,invalidateOnRefresh:true}});
   cards.forEach((c,i)=>{gsap.set(c,{zIndex:i+1,rotation:i%2?5:-5,y:i*9});if(i>0)gsap.set(c,{y:700,rotation:12});if(i>0)tl.to(c,{y:0,rotation:i%2?4:-4,duration:1},i-.2);});
   gsap.from('.ledger-statement h2',{opacity:.15,scrollTrigger:{trigger:'.ledger-statement',start:'top 85%',end:'top 35%',scrub:1}});
-  return()=>{journey=null;document.body.classList.remove('motion-ledger');};
+  return()=>{journey=null;document.body.classList.remove('motion-ledger');gsap.ticker.remove(tickTilt);removeEventListener('pointermove',onTilt);};
  });
  mm.add('(prefers-reduced-motion: reduce)',()=>{document.body.classList.add('reduced-ledger');render(cardStops()[0],1,true);return()=>document.body.classList.remove('reduced-ledger');});
  tabs.forEach((b,i)=>b.addEventListener('click',()=>{if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+(st.end-st.start)*cardStops()[i],behavior:'smooth'});}else{render(i===3?.96:cardStops()[i],1,true);}}));
