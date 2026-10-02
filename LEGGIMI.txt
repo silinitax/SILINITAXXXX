@@ -1,0 +1,14 @@
+SILINITAX — ANTEPRIMA PER IL CLIENTE
+
+1. Estrai tutta la cartella dallo ZIP.
+2. Apri APRI-SITO.html con Chrome, Edge, Safari o Firefox.
+3. Scorri la pagina per vedere il telefono e le card animate.
+   I collegamenti Lo studio e Piani aprono le altre pagine incluse.
+
+Non serve installare programmi o avviare un server.
+Le tre pagine di anteprima includono direttamente immagini, font, stili e animazioni.
+Se il sistema ha attiva la riduzione del movimento, le animazioni sono ridotte.
+I contatti e i collegamenti esterni richiedono una connessione.
+
+La cartella componenti contiene i sorgenti e la versione compilata per chi deve modificare il progetto.
+Le schermate dell’app sono illustrative: questa è l’anteprima del sito di presentazione.

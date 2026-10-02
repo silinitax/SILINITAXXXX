@@ -1,0 +1,1 @@
+{"name":"silinitax-site","private":true,"type":"module","scripts":{"build":"esbuild src/app.js --bundle --minify --outfile=dist/app.js"},"dependencies":{"gsap":"3.13.0","react":"19.1.0","react-dom":"19.1.0","remotion":"4.0.506","three":"0.180.0"},"devDependencies":{"esbuild":"0.25.10"}}
