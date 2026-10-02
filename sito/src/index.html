@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef3fb">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="SiliniTax: l’app per leggere con più chiarezza incassi, tasse e scadenze della tua attività. Con il supporto di Studio Silini, Pedrengo (BG).">
+<title>SiliniTax — Tutto il tuo fisco. In una sola app.</title>
+<link rel="icon" href="{{favicon}}" type="image/svg+xml">
+<style>{{css}}</style>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+{{sprite}}
+<canvas id="fluid" aria-hidden="true"></canvas>
+
+<header class="nav-wrap">
+  <nav class="nav glass" aria-label="Navigazione principale">
+    <a class="logo" href="#top" aria-label="SiliniTax, inizio pagina">silini<strong>tax</strong></a>
+    <div class="nav-links">
+      <a href="#app">L’app</a>
+      <a href="#studio">Lo studio</a>
+      <a href="#piani">Piani</a>
+    </div>
+    <a class="btn btn-primary btn-sm" href="#contatti">Parliamone</a>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-copy">
+      <p class="eyebrow reveal">App per partite IVA · Studio Silini</p>
+      <h1 class="reveal">Tutto il tuo fisco.<br><span class="grad">In una sola app.</span></h1>
+      <p class="lead reveal">Incassi, tasse e scadenze in una vista chiara. Con il supporto delle persone di Studio Silini.</p>
+      <div class="cta-row reveal">
+        <a class="btn btn-primary" href="#app">Esplora l’app</a>
+        <a class="btn btn-glass" href="#contatti">Parla con lo studio</a>
+      </div>
+    </div>
+
+    <div class="stage" id="heroStage">
+      <div class="phone-wrap" id="heroPhone">
+        <div class="phone" data-phone>{{phone}}</div>
+        <div class="chip glass chip-a" data-depth="60">
+          <span class="chip-ico"><svg><use href="#r-hand-coins"/></svg></span>
+          <span><small>Disponibile per te</small><b>€ 18.420</b></span>
+        </div>
+        <div class="chip glass chip-b" data-depth="90">
+          <span class="chip-ico blue"><svg><use href="#r-chart-pie-slice"/></svg></span>
+          <span><small>Da accantonare</small><b>€ 6.580</b></span>
+        </div>
+        <div class="chip glass chip-c" data-depth="40">
+          <span class="chip-ico amber"><svg><use href="#r-calendar-blank"/></svg></span>
+          <span><small>Prossimo F24</small><b>30 novembre</b></span>
+        </div>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#app" aria-label="Scorri alla sezione successiva"><span></span></a>
+  </section>
+
+  <!-- STORY: phone stays, screens change -->
+  <section class="story" id="app" aria-label="L’app SiliniTax, schermate illustrative">
+    <div class="story-pin">
+      <div class="story-text">
+        <p class="eyebrow">Una sola app</p>
+        <ol class="steps">
+          <li class="step is-on" data-step="0">
+            <h2>I tuoi numeri,<br>insieme.</h2>
+            <p>Incassi, disponibile e somme da accantonare. Una vista per sapere a che punto sei.</p>
+          </li>
+          <li class="step" data-step="1">
+            <h2>Sai quanto<br>mettere da parte.</h2>
+            <p>Una stima di tasse e contributi, aggiornata con i dati che registri.</p>
+          </li>
+          <li class="step" data-step="2">
+            <h2>Vedi cosa manca<br>all’incasso.</h2>
+            <p>Registri le fatture, importi XML e distingui i pagamenti ricevuti da quelli attesi.</p>
+          </li>
+          <li class="step" data-step="3">
+            <h2>La prossima<br>scadenza è qui.</h2>
+            <p>Date in ordine e pagamenti da confermare. Gli importi si verificano con lo studio.</p>
+          </li>
+        </ol>
+        <div class="seg glass" role="tablist" aria-label="Sezioni dell’app">
+          <button role="tab" data-go="0" aria-selected="true"><svg><use href="#r-house"/></svg>Panoramica</button>
+          <button role="tab" data-go="1" aria-selected="false"><svg><use href="#r-chart-pie-slice"/></svg>Tasse</button>
+          <button role="tab" data-go="2" aria-selected="false"><svg><use href="#r-receipt"/></svg>Fatture</button>
+          <button role="tab" data-go="3" aria-selected="false"><svg><use href="#r-calendar-blank"/></svg>Scadenze</button>
+        </div>
+      </div>
+      <div class="story-phone">
+        <div class="phone-wrap" id="storyPhone">
+          <div class="phone" data-phone>{{phone}}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO -->
+  <section class="bento-sec" aria-labelledby="bentoT">
+    <div class="wrap">
+      <p class="eyebrow reveal">Tutto in ordine</p>
+      <h2 id="bentoT" class="big reveal">Meno dubbi.<br><span class="grad">Più chiarezza.</span></h2>
+      <div class="bento">
+        <article class="card glass tilt reveal b-wide">
+          <span class="ico"><svg><use href="#r-hand-coins"/></svg></span>
+          <h3>Capisci cosa hai incassato</h3>
+          <p>Quanto è entrato, quanto è disponibile e quanto va messo da parte. Tutto nella stessa schermata.</p>
+          <div class="meter"><i style="--w:72%"></i></div>
+        </article>
+        <article class="card glass tilt reveal">
+          <span class="ico blue"><svg><use href="#r-chart-pie-slice"/></svg></span>
+          <h3>Tasse stimate</h3>
+          <p>Imposta e contributi, aggiornati ogni volta che registri un incasso.</p>
+        </article>
+        <article class="card glass tilt reveal">
+          <span class="ico violet"><svg><use href="#r-receipt"/></svg></span>
+          <h3>Fatture e XML</h3>
+          <p>Importa i file, vedi chi ha pagato e chi no.</p>
+        </article>
+        <article class="card glass tilt reveal">
+          <span class="ico amber"><svg><use href="#r-calendar-blank"/></svg></span>
+          <h3>Scadenze in ordine</h3>
+          <p>Le date importanti una dopo l’altra, senza cercarle.</p>
+        </article>
+        <article class="card glass tilt reveal b-salvo">
+          <img src="{{salvo}}" alt="" width="120" height="120" loading="lazy">
+          <div>
+            <h3>Il salvadanaio delle tasse</h3>
+            <p>Metti da parte la quota giusta a ogni incasso, così a novembre non arriva nessuna sorpresa.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO (dark liquid) -->
+  <section class="studio" id="studio" data-dark>
+    <div class="wrap">
+      <p class="eyebrow reveal">Lo studio</p>
+      <h2 class="huge reveal">I numeri aiutano.<br>Le persone<br><span class="grad">chiariscono.</span></h2>
+      <div class="studio-grid">
+        <p class="lead reveal">Crediamo che il fisco debba essere più comprensibile. L’app mette in ordine le informazioni. Le persone dello studio ti aiutano a leggerle e a scegliere il prossimo passo.</p>
+        <ul class="principles">
+          <li class="glass reveal"><span>01</span><div><h3>Leggere i numeri</h3><p>Mettere le informazioni importanti in un ordine comprensibile.</p></div></li>
+          <li class="glass reveal"><span>02</span><div><h3>Preparare il prossimo passo</h3><p>Capire quali documenti e verifiche richiedono attenzione.</p></div></li>
+          <li class="glass reveal"><span>03</span><div><h3>Parlare con qualcuno</h3><p>Affrontare i dubbi con le persone dello studio, senza lasciare tutto a una schermata.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIANI -->
+  <section class="plans" id="piani" aria-labelledby="plansT">
+    <div class="wrap">
+      <p class="eyebrow reveal">Piani</p>
+      <h2 id="plansT" class="big reveal">Il supporto giusto<br>per il tuo <span class="grad">percorso.</span></h2>
+      <div class="plan-grid">
+        <article class="plan glass tilt reveal">
+          <h3>Base</h3>
+          <p class="sub">Parti dalle basi.</p>
+          <p class="price"><b>€ 40</b><small>+ IVA / mese</small></p>
+          <ul>
+            <li>Gli elementi essenziali della gestione contabile</li>
+            <li>Un primo confronto con lo studio</li>
+          </ul>
+          <a class="btn btn-glass" href="#contatti">Chiedi informazioni</a>
+        </article>
+        <article class="plan glass tilt reveal is-featured">
+          <span class="badge">Consigliato</span>
+          <h3>Plus</h3>
+          <p class="sub">Più supporto nel tempo.</p>
+          <p class="price"><b>€ 60</b><small>+ IVA / mese</small></p>
+          <ul>
+            <li>Il percorso Base</li>
+            <li>Un confronto più continuativo sul lavoro da preparare</li>
+          </ul>
+          <a class="btn btn-primary" href="#contatti">Chiedi informazioni</a>
+        </article>
+        <article class="plan glass tilt reveal">
+          <h3>Max</h3>
+          <p class="sub">Uno sguardo avanti.</p>
+          <p class="price"><b>€ 80</b><small>+ IVA / mese</small></p>
+          <ul>
+            <li>Il percorso Plus</li>
+            <li>Strumenti di previsione e un supporto più ampio</li>
+          </ul>
+          <a class="btn btn-glass" href="#contatti">Chiedi informazioni</a>
+        </article>
+      </div>
+      <p class="fine reveal">Impegno annuale. Prezzi indicativi: inclusioni e condizioni vengono confermate nella proposta dello studio.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="closing" id="contatti" aria-labelledby="closeT">
+    <div class="wrap">
+      <div class="closing-card glass reveal">
+        <h2 id="closeT" class="big">Crediamo in un fisco<br><span class="grad">che si capisce.</span></h2>
+        <div class="cta-row center">
+          <a class="btn btn-primary" href="https://wa.me/390350402086">Scrivici su WhatsApp</a>
+          <a class="btn btn-glass" href="mailto:info@studiosilini.it?subject=Informazioni%20SiliniTax">info@studiosilini.it</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot">
+    <div>
+      <a class="logo" href="#top">silini<strong>tax</strong></a>
+      <p>La gestione fiscale della tua attività.<br>Con l’app e le persone dello studio.</p>
+    </div>
+    <div class="foot-col">
+      <h3>Esplora</h3>
+      <a href="#app">L’app</a><a href="#studio">Lo studio</a><a href="#piani">Piani</a>
+    </div>
+    <div class="foot-col">
+      <h3>Contatti</h3>
+      <a href="mailto:info@studiosilini.it">info@studiosilini.it</a>
+      <a href="tel:+390350402086">035 040 2086</a>
+      <span>Pedrengo (BG)</span>
+    </div>
+  </div>
+  <div class="wrap foot-bottom"><span>© <span id="year">2026</span> SiliniTax · Studio Silini</span><span>Schermate illustrative · dati dimostrativi</span></div>
+</footer>
+<script>{{js}}</script>
+</body>
+</html>

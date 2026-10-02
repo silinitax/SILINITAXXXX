@@ -1,0 +1,1 @@
+{"name":"silinitax-sito","private":true,"type":"module","scripts":{"build":"node build.mjs"},"dependencies":{"gsap":"3.13.0"},"devDependencies":{"esbuild":"0.25.10"}}
