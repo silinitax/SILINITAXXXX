@@ -1,0 +1,38 @@
+/* Home: liquid background instead of the blue grid stage and the coin/receipt photo.
+   The page sits on one fixed WebGL canvas; .dark (set while the studio or product chapter is centred)
+   turns both the canvas and every text token navy-dark, so headings stay readable during the change. */
+body[data-page=home]{--fx-ink:#101010;--fx-ink-2:#3a3a41;--fx-ink-3:#56565d;--fx-hair:rgba(16,16,16,.1);--fx-glass:rgba(255,255,255,.62);background:#eef3fb;color:var(--fx-ink);transition:color .6s cubic-bezier(.22,1,.36,1)}
+body[data-page=home].dark{--fx-ink:#f5f5f7;--fx-ink-2:#d2d2d7;--fx-ink-3:#a1a1a6;--fx-hair:rgba(255,255,255,.14);--fx-glass:rgba(22,27,46,.55)}
+body[data-page=home].no-fluid{background:linear-gradient(160deg,#eef3fb,#dbe7ff 60%,#efe8ff) fixed}
+body[data-page=home].no-fluid.dark{background:#070d22}
+#fluid{position:fixed;inset:0;width:100%;height:100%;z-index:-1;display:block;pointer-events:none}
+::selection{background:#245eea;color:#fff}
+
+/* surfaces become transparent so the liquid shows through */
+body[data-page=home] :is(.ledger-intro,.ledger-journey,.ledger-about,.ledger-platform,.ledger-product,.ledger-capabilities,.ledger-statement){background:transparent;color:var(--fx-ink);transition:color .6s cubic-bezier(.22,1,.36,1)}
+body[data-page=home] .intro-copy>p,body[data-page=home] .about-summary p,body[data-page=home] .product-copy p,body[data-page=home] .ledger-capabilities>p{color:var(--fx-ink-2)}
+body[data-page=home] .about-title span{color:var(--fx-ink-3)}
+
+/* nav: glass pill over the liquid */
+body[data-page=home] .ledger-nav{background:var(--fx-glass);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 1px var(--fx-hair),0 10px 30px -12px rgba(16,30,70,.25)}
+body[data-page=home] .ledger-logo{color:var(--fx-ink)}
+body[data-page=home] .ledger-nav nav a{color:var(--fx-ink-2)}
+body[data-page=home] .ledger-nav nav a:hover{color:var(--fx-ink)}
+
+/* buttons keep their look in light, invert in the dark chapters so they never vanish */
+body[data-page=home] .ledger-button.secondary{background:rgba(16,16,16,.07);color:var(--fx-ink);box-shadow:inset 0 0 0 1px var(--fx-hair)}
+body[data-page=home] .ledger-button.secondary:hover{background:rgba(16,16,16,.13)}
+body[data-page=home].dark .ledger-button:not(.secondary){background:#f5f5f7;color:#101010}
+body[data-page=home].dark .ledger-button:not(.secondary):hover{background:#245eea;color:#fff}
+body[data-page=home].dark .ledger-button.secondary{background:rgba(255,255,255,.12)}
+body[data-page=home].dark .ledger-button.secondary:hover{background:rgba(255,255,255,.2)}
+
+/* footer: translucent instead of a white slab */
+body[data-page=home] .ledger-footer{background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--fx-hair)}
+body[data-page=home] .footer-top p,body[data-page=home] .footer-top>div:not(:first-child){color:var(--fx-ink-2)}
+body[data-page=home] .ledger-footer .footer-bottom{border-top-color:var(--fx-hair);color:var(--fx-ink-3)}
+
+@media(prefers-reduced-transparency:reduce){body[data-page=home] .ledger-nav{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}body[data-page=home] .ledger-footer{background:#fff}}
+
+/* headings break evenly instead of leaving one word alone on a line (e.g. "fisco" on phones) */
+body[data-page=home] :is(h1,h2){text-wrap:balance}

@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { createLedgerMotion, ledgerExperience, cardStops, track } from './ledger-motion';
-import { mountHero3D } from './hero3d';
+import { startFluid } from './fluid';
 gsap.registerPlugin(ScrollTrigger);
 const page=document.body.dataset.page;
 const mail='mailto:info@studiosilini.it?subject=Informazioni%20SiliniTax';
@@ -34,7 +34,7 @@ const features=[
 ];
 function home(){return `<main id="main">
 <section class="ledger-intro"><div class="intro-copy"><span class="ledger-label">/ SILINITAX</span><h1>Tutto il tuo fisco.<br> In una sola app.</h1><p>Incassi, tasse e scadenze in una vista chiara.<br> Con il supporto delle persone di Studio Silini.</p><div class="ledger-actions"><a class="ledger-button" href="#funzioni">Esplora l’app<span class="button-symbol">${appIcon('r-plus')}</span></a>${cta('Parla con lo studio',true)}</div></div></section>
-<section class="ledger-journey" aria-label="Esplora l’app SiliniTax, schermate illustrative"><div class="journey-stage"><div class="journey-background"><div class="scene-mobile-grid"></div><img class="scene-desktop" src="/ledger-scene.webp" alt="" fetchpriority="high"></div>${ledgerExperience(appIcon,appLogo,appYear,screens)}<nav class="journey-tabs" aria-label="Funzioni dell’app">${features.map(([label],i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}">${label}</button>`).join('')}</nav></div></section>
+<section class="ledger-journey" aria-label="Esplora l’app SiliniTax, schermate illustrative"><div class="journey-stage">${ledgerExperience(appIcon,appLogo,appYear,screens)}<nav class="journey-tabs" aria-label="Funzioni dell’app">${features.map(([label],i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}">${label}</button>`).join('')}</nav></div></section>
 <section class="ledger-about" id="studio"><span class="ledger-label">/ LO STUDIO</span><h2 class="about-title">I numeri aiutano.<br> Le persone<br> <span>chiariscono.</span></h2><div class="about-summary"><span>APP + STUDIO SILINI</span><p>Crediamo che il fisco debba essere più comprensibile. L’app mette in ordine le informazioni. Le persone dello studio ti aiutano a leggerle e a scegliere il prossimo passo.</p><a class="ledger-button secondary" href="/chi-siamo/">Il nostro approccio</a></div></section>
 <section class="ledger-platform" id="funzioni"><div class="platform-stage"><span class="ledger-label">/ UNA SOLA APP</span><div class="feature-deck">${features.map(([label,title,copy,icon],i)=>`<article class="deck-card card-${i}"><div class="deck-icon">${appIcon(icon)}</div><h3>${label}</h3><p>${copy}</p></article>`).join('')}</div><h2>La tua attività.<br> Più semplice<br> da leggere.</h2></div></section>
 <section class="ledger-product"><div class="product-top"><span class="ledger-label">/ SILINITAX</span><span class="ledger-label">/ GESTIONE FISCALE</span></div><div class="product-layout"><h2>Meno dubbi.<br> Più chiarezza.</h2><div class="product-screen"><div class="product-app">${screens[1]}</div></div><div class="product-copy"><p>Capisci cosa hai incassato, quanto accantonare e quali scadenze preparare. Parti dai tuoi dati, poi confrontati con lo studio.</p><div class="ledger-actions">${cta('Parliamone')}<a class="ledger-button secondary" href="/prezzi/">Esplora i piani</a></div></div></div></section>
@@ -49,6 +49,22 @@ function pricing() { return `<main id="main"><section class="inner-hero containe
 document.getElementById('app').innerHTML=header()+({home,about,pricing}[page]||home)()+footer();
 const mm=gsap.matchMedia();
 if(page==='home'){
+ // Liquid background behind the whole home; the dark chapters (studio, product) turn it navy.
+ const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const fluidCanvas=document.createElement('canvas');
+ fluidCanvas.id='fluid';fluidCanvas.setAttribute('aria-hidden','true');
+ document.body.prepend(fluidCanvas);
+ const fluid=startFluid(fluidCanvas,{reduced:reducedMotion});
+ if(!fluid)document.body.classList.add('no-fluid');
+ const themeMeta=document.querySelector('meta[name=theme-color]');
+ const darkChapters=['.ledger-about','.ledger-product'].map(sel=>ScrollTrigger.create({trigger:sel,start:'top 50%',end:'bottom 50%',refreshPriority:-1,onToggle:applyTheme}));
+ function applyTheme(){
+  const dark=darkChapters.some(t=>t.isActive);
+  document.body.classList.toggle('dark',dark);
+  if(themeMeta)themeMeta.content=dark?'#050a1c':'#eef3fb';
+  if(fluid)fluid.setDark(dark?1:0);
+ }
+ if(fluid)ScrollTrigger.create({start:0,end:'max',refreshPriority:-1,onUpdate:self=>fluid.setScroll(self.progress)});
  const section=document.querySelector('.ledger-journey'),stage=section.querySelector('.journey-stage');
  const {render,tabs,actions,measure}=createLedgerMotion(section);
  const intro=document.querySelector('.ledger-intro');
@@ -56,20 +72,8 @@ if(page==='home'){
  const approach=()=>track(window.scrollY,0,intro.offsetHeight);
  const update=p=>render(p,approach());
  update(Math.max(0,Math.min(1,(scrollY-intro.offsetHeight+innerHeight*.25)/(innerHeight*(innerWidth<761?3.5:4)))));
- const hero3d=mountHero3D(intro,{reduced:matchMedia('(prefers-reduced-motion: reduce)').matches});
- if(hero3d)addEventListener('pagehide',()=>hero3d.dispose(),{once:true});
  mm.add('(prefers-reduced-motion: no-preference)',()=>{
   document.body.classList.add('motion-ledger');
-  // The phone follows the pointer while it is still the hero object, then settles for the scroll story.
-  const tilt={x:0,y:0,tx:0,ty:0};
-  const onTilt=e=>{tilt.tx=(e.clientX/innerWidth*2-1)*9;tilt.ty=-(e.clientY/innerHeight*2-1)*6;};
-  if(innerWidth>760)addEventListener('pointermove',onTilt,{passive:true});
-  const tickTilt=()=>{
-   const phone=section.querySelector('.ledger-phone'),k=1-track(journey?journey.progress():0,0,.08);
-   tilt.x+=(tilt.tx-tilt.x)*.08;tilt.y+=(tilt.ty-tilt.y)*.08;
-   gsap.set(phone,{transformPerspective:1400,rotationY:tilt.x*k,rotationX:tilt.y*k});
-  };
-  gsap.ticker.add(tickTilt);
   ScrollTrigger.create({trigger:section,start:()=>`top ${intro.offsetHeight}px`,end:()=>`top ${innerHeight*.25}px`,invalidateOnRefresh:true,onUpdate:()=>{if(!journey||journey.progress()===0)update(0);},onRefresh:()=>{if(!journey||journey.progress()===0)update(0);}});
   journey=gsap.to({progress:0},{progress:1,ease:'none',scrollTrigger:{trigger:section,start:()=>`top ${innerHeight*.25}px`,end:()=>'+='+innerHeight*(innerWidth<761?3.5:4),pin:stage,scrub:.32,invalidateOnRefresh:true},onUpdate:function(){update(this.progress())}});
   gsap.from('.intro-copy>*',{y:18,opacity:0,duration:.7,stagger:.08,ease:'power2.out'});
@@ -78,7 +82,7 @@ if(page==='home'){
   const tl=gsap.timeline({scrollTrigger:{trigger:'.ledger-platform',start:'top top',end:()=>'+='+innerHeight*2.4,pin:'.platform-stage',scrub:.7,invalidateOnRefresh:true}});
   cards.forEach((c,i)=>{gsap.set(c,{zIndex:i+1,rotation:i%2?5:-5,y:i*9});if(i>0)gsap.set(c,{y:700,rotation:12});if(i>0)tl.to(c,{y:0,rotation:i%2?4:-4,duration:1},i-.2);});
   gsap.from('.ledger-statement h2',{opacity:.15,scrollTrigger:{trigger:'.ledger-statement',start:'top 85%',end:'top 35%',scrub:1}});
-  return()=>{journey=null;document.body.classList.remove('motion-ledger');gsap.ticker.remove(tickTilt);removeEventListener('pointermove',onTilt);};
+  return()=>{journey=null;document.body.classList.remove('motion-ledger');};
  });
  mm.add('(prefers-reduced-motion: reduce)',()=>{document.body.classList.add('reduced-ledger');render(cardStops()[0],1,true);return()=>document.body.classList.remove('reduced-ledger');});
  tabs.forEach((b,i)=>b.addEventListener('click',()=>{if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+(st.end-st.start)*cardStops()[i],behavior:'smooth'});}else{render(i===3?.96:cardStops()[i],1,true);}}));

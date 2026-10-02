@@ -1,7 +1,8 @@
 import { gsap } from 'gsap';
-import { Easing, interpolate } from 'remotion';
-const ease=Easing.inOut(Easing.cubic);
-export const track=(p,a,b)=>interpolate(p,[a,b],[0,1],{extrapolateLeft:'clamp',extrapolateRight:'clamp',easing:ease});
+// Cubic ease-in-out clamped to [a,b]: the same curve remotion's Easing.inOut(Easing.cubic) gave,
+// without bundling remotion and React (about 175 KB) for two helpers.
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+export const track=(p,a,b)=>ease(Math.min(1,Math.max(0,(p-a)/(b-a))));
 const mix=(a,b,t)=>a+(b-a)*t;
 export const cardStops=()=>[.20,.675,.415,.90];
 const euro=n=>{const [whole,cents]=n.toFixed(2).split('.');return '€ '+whole.replace(/\B(?=(\d{3})+(?!\d))/g,'.')+(cents==='00'?'':','+cents);};
@@ -50,8 +51,7 @@ export function createLedgerMotion(section){
   const top=before?mix(initialTop,resting,approach):mix(entranceTop,finalTop,entry);
   gsap.set(phone,{scale,xPercent:-50,yPercent:0,x:0,y:top,top:0});
   const bottom=mobile?h*.18:Math.max(0,h-530);
-  gsap.set(background,{height:h,y:-anchor*entry,clipPath:`inset(0px ${(mobile?12:16)*(1-entry)}px ${bottom*(1-entry)}px round ${32*(1-entry)}px)`});
-  gsap.set(section.querySelector('.scene-mobile-grid'),{scale:1+.5*entry});
+  if(background)gsap.set(background,{height:h,y:-anchor*entry,clipPath:`inset(0px ${(mobile?12:16)*(1-entry)}px ${bottom*(1-entry)}px round ${32*(1-entry)}px)`});
   let active=0;
   views.forEach((view,i)=>{
    const enter=i?track(p,...transitions[i-1]):1;
