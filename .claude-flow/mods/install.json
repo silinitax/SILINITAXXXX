@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "installedAt": "2026-10-03T13:17:17.874Z",
+  "files": {
+    "/home/user/SILINITAXXXX/.claude/settings.json": {
+      "plugins": [
+        "ruflo-mods@ruflo",
+        "ruflo-swarm@ruflo",
+        "ruflo-console@ruflo"
+      ],
+      "marketplace": true,
+      "env": true,
+      "claudeInstalled": []
+    }
+  }
+}
