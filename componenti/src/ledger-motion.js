@@ -50,10 +50,9 @@ export function createLedgerMotion(section){
   const before=window.scrollY<intro-anchor&&!reduced;
   const top=before?mix(initialTop,resting,approach):mix(entranceTop,finalTop,entry);
   gsap.set(phone,{scale,xPercent:-50,yPercent:0,x:0,y:top,top:0});
-  const bottom=mobile?h*.18:Math.max(0,h-530);
-  // The card behind the phone is a window onto the page's liquid background; it opens to full bleed
-  // with the same insets the old clip-path used (the area around it is painted by the window's spread shadow).
-  if(win){const side=(mobile?12:16)*(1-entry);gsap.set(win,{y:-anchor*entry,left:side,right:side,height:h-bottom*(1-entry),borderRadius:32*(1-entry)});}
+  // Behind the phone the page's liquid background is already full screen under the hero; the window
+  // only follows the pinned stage up so it keeps covering the whole screen.
+  if(win)gsap.set(win,{y:-anchor*entry,left:0,right:0,height:h,borderRadius:0});
   let active=0;
   views.forEach((view,i)=>{
    const enter=i?track(p,...transitions[i-1]):1;

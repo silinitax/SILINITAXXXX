@@ -65,7 +65,7 @@ if(page==='home'){
  if(!fluid)document.body.classList.add('no-fluid');
  const themeMeta=document.querySelector('meta[name=theme-color]');
  // The studio chapter turns navy once the light film has carried its title up the screen.
- const darkChapters=[['.ledger-about','top 25%'],['.ledger-product','top 50%']].map(([sel,start])=>ScrollTrigger.create({trigger:sel,start,end:'bottom 50%',refreshPriority:-1,onToggle:applyTheme}));
+ const darkChapters=[['.ledger-about','top 50%'],['.ledger-product','top 50%']].map(([sel,start])=>ScrollTrigger.create({trigger:sel,start,end:'bottom 50%',refreshPriority:-1,onToggle:applyTheme}));
  function applyTheme(){
   const dark=darkChapters.some(t=>t.isActive);
   document.body.classList.toggle('dark',dark);
@@ -78,20 +78,20 @@ if(page==='home'){
  const intro=document.querySelector('.ledger-intro');
  let journey;
  const approach=()=>track(window.scrollY,0,intro.offsetHeight);
- const update=p=>render(p,approach());
- // Hand-off after the phone story: everything after it sits on a light matte film (the sections'
- // own background, feathered at the top). The pin holds the phone one screen longer and the film is
- // pulled up to overlap that screen, so it slides over the phone, which loses focus and fades.
+ // The liquid behind the phone grows with it while the phone scales up to fill the screen.
+ const update=p=>{render(p,approach());fluidCanvas.style.scale=String(1+.35*track(p,0,.145));};
+ // Hand-off after the phone story: the pin holds the phone one screen longer and the studio chapter is
+ // pulled up to overlap that screen, so its title rises over the phone, which loses focus and fades.
+ // The light matte film starts after the studio chapter (fluid.css).
  const about=document.querySelector('.ledger-about');
  const storyLen=()=>innerHeight*(innerWidth<761?3.5:4),handoffLen=()=>innerHeight;
  const storyShare=()=>storyLen()/(storyLen()+handoffLen());
- const feather=()=>Math.round(innerHeight*.3);
- // The pinned stage (75dvh, held 25% down) ends at the bottom of the screen, so pulling the film up by
- // one hand-off minus its feather makes the feathered edge enter exactly when the hand-off starts.
+ // The pinned stage (75dvh, held 25% down) ends at the bottom of the screen, so pulling the chapter up
+ // by one hand-off makes it enter exactly when the hand-off starts.
  // Runs on refreshInit, before ScrollTrigger measures, so the dark-chapter triggers see the final layout.
- const overlapFilm=()=>{about.style.setProperty('--feather',feather()+'px');about.style.marginTop=-(handoffLen()-feather())+'px';};
+ const overlapFilm=()=>{about.style.marginTop=-handoffLen()+'px';};
  function handoff(e){
-  const fade=track(e,.15,.85);
+  const fade=track(e,.05,.6);
   stage.style.opacity=fade?String(1-fade):'';
   stage.style.visibility=fade===1?'hidden':'';
   stage.style.filter=fade?`blur(${(12*fade).toFixed(2)}px)`:'';
@@ -113,7 +113,7 @@ if(page==='home'){
   gsap.from('.ledger-statement h2',{opacity:.15,scrollTrigger:{trigger:'.ledger-statement',start:'top 85%',end:'top 35%',scrub:1}});
   return()=>{
    journey=null;handoff(0);document.body.classList.remove('motion-ledger');
-   ScrollTrigger.removeEventListener('refreshInit',overlapFilm);about.style.marginTop='';about.style.removeProperty('--feather');
+   ScrollTrigger.removeEventListener('refreshInit',overlapFilm);about.style.marginTop='';
   };
  });
  mm.add('(prefers-reduced-motion: reduce)',()=>{
