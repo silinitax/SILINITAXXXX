@@ -12,3 +12,6 @@ node_modules/
 .swarm/
 ruvector.db
 .claude/settings.json.bak-*
+
+# Stato dello swarm ruflo (si rigenera)
+.claude-flow/swarm/
