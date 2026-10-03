@@ -51,7 +51,7 @@ export function createLedgerMotion(section,screens){
  const cam=section.querySelector('.app-camera'),rings=[...section.querySelectorAll('.app-ring')],shots=[...section.querySelectorAll('.app-shot')];
  const copyBox=section.querySelector('.journey-copy'),mask=section.querySelector('.copy-mask'),items=[...section.querySelectorAll('.copy-item')];
  const statBox=section.querySelector('.journey-stat'),statMask=section.querySelector('.stat-mask'),stats=[...section.querySelectorAll('.stat-item')];
- const tabs=[...section.querySelectorAll('[data-stop]')],win=section.querySelector('.journey-window');
+ const tabNav=section.querySelector('.journey-tabs'),tabs=[...section.querySelectorAll('[data-stop]')],win=section.querySelector('.journey-window');
  // First and last step of each screen, to keep every ring inside its own screen.
  const first=screens.map((_,s)=>steps.findIndex(b=>b.s===s)),last=screens.map((_,s)=>N-1-[...steps].reverse().findIndex(b=>b.s===s));
  // Still point inside a step, where its travel is over: used by the jump buttons and the reduced-motion view.
@@ -95,10 +95,20 @@ export function createLedgerMotion(section,screens){
   const entry=reduced?1:track(p,0,ENTRY_END);
   const B=where(p),Bc=Math.max(0,B);
   // Phone always centred. Wide screens put the copy on its left and the figure on its right; narrower ones
-  // stack the copy under the phone.
-  const side=!mobile&&w>=1100;
+  // stack the copy under the phone. The width is the one of the stage, so a classic scrollbar does not count.
+  const side=!mobile&&w>=1080;
+  const fitSide=Math.min(1.2,(h-170)/624);
+  const left=side?Math.max(24,w*.06):20,width=side?Math.min(420,w/2-151*fitSide-left-48):Math.min(560,w-40);
+  copyBox.classList.toggle('is-stacked',!side);
+  copyBox.style.left=(side?left:(w-width)/2)+'px';copyBox.style.width=width+'px';
+  // The figure faces the copy across the phone, on the right, and only where there is room for it.
+  const sLeft=w/2+151*fitSide+56;
+  statBox.classList.toggle('is-off',!side);
+  statBox.style.left=sLeft+'px';statBox.style.width=Math.max(200,Math.min(360,w-sLeft-Math.max(24,w*.06)))+'px';
+  if(!maskH||sizeKey()!==measuredKey)measure();
+  // Stacked, the phone is as big as what is left once the copy has its own room under it (nav 84 + gap 16 + margin 14).
+  const fit=side?fitSide:Math.max(.3,Math.min(1,(h-114-copyBox.offsetHeight)/624,(w-60)/302));
   const base=mobile?.68:.95;
-  const fit=side?Math.min(1.2,(h-170)/624):Math.min(1,(h-300)/624,(w-60)/302);
   const scale=mix(base,fit,entry);
   const finalTop=side?(h-624*fit)/2:84;
   const top=mix(mobile?-55:-75,finalTop-anchor,entry);
@@ -108,21 +118,16 @@ export function createLedgerMotion(section,screens){
   cam.style.transform=`translate(${c.x.toFixed(2)}px,${c.y.toFixed(2)}px) scale(${c.z.toFixed(4)})`;
   cam.style.setProperty('--z',c.z.toFixed(3));
   drawRings(B);
-  const left=side?Math.max(24,w*.06):20,width=side?Math.min(420,w/2-151*fit-left-48):Math.min(560,w-40);
-  copyBox.classList.toggle('is-stacked',!side);
-  copyBox.style.left=(side?left:(w-width)/2)+'px';copyBox.style.width=width+'px';
-  // The figure faces the copy across the phone, on the right, and only where there is room for it.
-  const sLeft=w/2+151*fit+56;
-  statBox.classList.toggle('is-off',!side);
-  statBox.style.left=sLeft+'px';statBox.style.width=Math.max(200,Math.min(360,w-sLeft-Math.max(24,w*.06)))+'px';
-  if(!maskH||sizeKey()!==measuredKey)measure();
   const copyTop=side?(h-copyBox.offsetHeight)/2:finalTop+624*fit+16;
-  const reveal=`inset(0 0 ${((1-entry)*100).toFixed(2)}% 0)`;
+  // The progress bar cannot take focus while the copy is still clipped away, or the focus would be invisible.
+  if(tabNav.inert!==(entry<1))tabNav.inert=entry<1;
+  // Once the story has started nothing is clipped, so the focus ring of the tabs is drawn whole.
+  const reveal=entry>=1?'none':`inset(0 0 ${((1-entry)*100).toFixed(2)}% 0)`;
   gsap.set(copyBox,{y:copyTop-anchor,clipPath:reveal});
   const pos=Bc-1+entry;
   items.forEach((item,i)=>gsap.set(item,{y:(i-pos)*(maskH+SLIDE_GAP)}));
   if(side){
-   gsap.set(statBox,{y:(h-statH)/2-anchor,clipPath:`inset(0 -80px ${((1-entry)*100).toFixed(2)}% -80px)`});
+   gsap.set(statBox,{y:(h-statH)/2-anchor,clipPath:entry>=1?'none':`inset(0 -80px ${((1-entry)*100).toFixed(2)}% -80px)`});
    stats.forEach((item,i)=>gsap.set(item,{y:(i-pos)*(statH+SLIDE_GAP)}));
   }
   tabs.forEach((b,s)=>{

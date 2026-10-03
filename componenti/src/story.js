@@ -17,7 +17,7 @@ export default [
   {title:'L’aliquota agevolata,<br> scritta in chiaro.',text:'L’app mette in evidenza l’aliquota agevolata del 5% fino al 2029. Sotto trovi “Quando e quanto paghi”.',stat:['5%','aliquota agevolata fino al 2029'],ring:[15,576,258,30]}
  ]},
  {label:'Fatture',icon:'r-receipt',src:'/app-fatture.webp',beats:[
-  {title:'Cosa manca<br> all’incasso.',text:'42 fatture nel 2026 e € 623 ancora da incassare. Il conto che conta, in alto.',stat:['€ 623','da incassare · 42 fatture nel 2026'],ring:[14,54,236,26]},
+  {title:'Cosa manca<br> all’incasso.',text:'42 fatture nel 2026 e € 623 ancora da incassare. Il conto che conta, in alto.',stat:['€ 623','da incassare · 42 fatture nel 2026'],ring:[14,58,238,22]},
   {title:'Cerca, importa,<br> filtra.',text:'Cerca una fattura, importa l’XML e filtra per stato: tutte 42, da incassare 1, incassate 37.',stat:['37','incassate su 42'],ring:[14,145,362,101]},
   {title:'Un tocco ed<br> è incassata.',text:'Per la fattura da incassare c’è il tasto “Segna incassata”. Qui € 623,00 di Illuna S.r.l., scade il 3 ottobre.',stat:['€ 623,00','Illuna S.r.l. · scade il 3 ottobre'],ring:[14,282,362,94]}
  ]},

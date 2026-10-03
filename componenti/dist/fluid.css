@@ -124,7 +124,7 @@ body[data-page=home] .journey-copy.is-stacked{text-align:center}
 body[data-page=home] .journey-copy.is-stacked .copy-item p{margin-left:auto;margin-right:auto}
 body[data-page=home] .copy-mask{position:relative;overflow:hidden}
 body[data-page=home] .copy-item{position:absolute;inset:0;will-change:transform}
-body[data-page=home] .copy-eyebrow{display:block;font-size:12px;line-height:16px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#2563eb;font-variant-numeric:tabular-nums}
+body[data-page=home] .copy-eyebrow{display:block;font-size:12px;line-height:16px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#1d4ed8;font-variant-numeric:tabular-nums}
 body[data-page=home] .copy-item h3{margin:12px 0 0;font-size:clamp(32px,3vw,46px);line-height:1.05;font-weight:600;letter-spacing:-.04em;color:var(--fx-ink);text-wrap:balance}
 body[data-page=home] .copy-item p{margin:14px 0 0;max-width:36ch;font-size:17px;line-height:1.5;color:var(--fx-ink-2)}
 /* The key figure of the step, on the other side of the phone, joined to it by a thin pointer. */
@@ -138,7 +138,7 @@ body[data-page=home] .stat-item strong{display:block;font-size:clamp(46px,5vw,76
 body[data-page=home] .stat-item span{display:block;margin-top:12px;max-width:26ch;font-size:16px;line-height:1.35;color:var(--fx-ink-2)}
 /* The jump buttons become the progress of the story: one bar per screen, filled as its steps are reached. */
 body[data-page=home] .journey-copy .journey-tabs{position:static;transform:none;margin-top:22px;width:100%;max-width:420px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0;border-radius:0;background:none;box-shadow:none}
-body[data-page=home] .journey-copy .journey-tabs button{position:relative;padding:13px 0 0;border-radius:0;background:none;text-align:left;font-size:13px;font-weight:500;color:var(--fx-ink-3);transition:color .24s}
+body[data-page=home] .journey-copy .journey-tabs button{position:relative;padding:13px 0 7px;border-radius:0;background:none;text-align:left;font-size:13px;font-weight:500;color:var(--fx-ink-3);transition:color .24s}
 body[data-page=home] .journey-copy .journey-tabs button[aria-pressed=true]{background:none;color:var(--fx-ink)}
 body[data-page=home] .journey-copy .journey-tabs button::before,body[data-page=home] .journey-copy .journey-tabs button::after{content:'';position:absolute;inset:0 0 auto;height:3px;border-radius:3px}
 body[data-page=home] .journey-copy .journey-tabs button::before{background:var(--fx-hair)}
@@ -148,7 +148,7 @@ body[data-page=home] .journey-copy .journey-tabs button::after{background:#2563e
  body[data-page=home] .copy-eyebrow{font-size:11px;line-height:14px}
  body[data-page=home] .copy-item p{margin-top:8px;font-size:15px;line-height:1.45}
  body[data-page=home] .journey-copy .journey-tabs{margin-top:12px}
- body[data-page=home] .journey-copy .journey-tabs button{padding:11px 0 0;font-size:12px;text-align:center}
+ body[data-page=home] .journey-copy .journey-tabs button{padding:11px 0 7px;font-size:12px;text-align:center}
 }
 
 /* Footer in the yellow of the Scadenze card. */
@@ -156,3 +156,4 @@ body[data-page=home] .ledger-footer{background:#f8da53;border-top:0;--fx-ink:#10
 body[data-page=home] .ledger-nav{box-shadow:0 1px 0 var(--fx-hair)}
 body[data-page=home] .journey-copy.is-stacked .journey-tabs{margin-left:auto;margin-right:auto}
 body[data-page=home] .journey-copy.is-stacked .journey-tabs button{text-align:center}
+body[data-page=home] .journey-copy .journey-tabs button:focus-visible{outline:3px solid #1d4ed8;outline-offset:3px;border-radius:4px}

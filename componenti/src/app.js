@@ -113,6 +113,6 @@ if(page==='home'){
  }));
  document.fonts.ready.then(()=>{measure();ScrollTrigger.refresh();if(journey)advance(journey.progress());});
  addEventListener('pageshow',()=>{if(journey)advance(journey.progress());});
- addEventListener('resize',()=>{measure();if(journey)advance(journey.progress());});
+ addEventListener('resize',()=>{measure();if(journey)advance(journey.progress());else if(document.body.classList.contains('reduced-ledger'))render(stops[current()],1,true);});
 }
 addEventListener('pagehide',()=>mm.revert(),{once:true});
