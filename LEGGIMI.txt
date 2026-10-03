@@ -3,7 +3,7 @@ SILINITAX — ANTEPRIMA PER IL CLIENTE
 1. Estrai tutta la cartella dallo ZIP.
 2. Apri APRI-SITO.html con Chrome, Edge, Safari o Firefox.
 3. Scorri la pagina per vedere il telefono e le card animate.
-   I collegamenti Lo studio e Piani aprono le altre pagine incluse.
+   I collegamenti Chi siamo e Piani aprono le altre pagine incluse.
 
 Non serve installare programmi o avviare un server.
 Le tre pagine di anteprima includono direttamente immagini, font, stili e animazioni.
@@ -11,4 +11,14 @@ Se il sistema ha attiva la riduzione del movimento, le animazioni sono ridotte.
 I contatti e i collegamenti esterni richiedono una connessione.
 
 La cartella componenti contiene i sorgenti e la versione compilata per chi deve modificare il progetto.
-Le schermate dell’app sono illustrative: questa è l’anteprima del sito di presentazione.
+
+PER MODIFICARE IL SITO (sviluppatori o strumenti come ruflo)
+- Sorgenti: componenti/src (app.js = pagine e animazioni, ledger-motion.js = storia del telefono, fluid.js = sfondo animato).
+- Stili: componenti/dist/style.css (tutte le pagine) e componenti/dist/fluid.css (solo home).
+- Schermate dell'app nel telefono: componenti/dist/app-home|tasse|fatture|scadenze.webp.
+- Dopo una modifica, dalla cartella componenti:
+    npm install
+    npx esbuild src/app.js --bundle --minify --outfile=dist/app.js
+    node scripts/build-standalone.mjs     (rigenera APRI-SITO.html, chi-siamo.html, prezzi.html)
+- Anteprima con server: cd componenti/dist && python3 -m http.server 4600, poi http://localhost:4600
+Le schermate dell’app usano dati dimostrativi: questa è l’anteprima del sito di presentazione.
