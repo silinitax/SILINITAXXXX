@@ -54,3 +54,6 @@
 .ledger-button.has-icon{gap:9px}
 .btn-icon{width:19px;height:19px;flex:none;fill:currentColor}
 @media(max-width:760px){.btn-icon{width:17px;height:17px}.ledger-nav .ledger-button.has-icon{gap:7px}}
+/* Top bar spans the full width of the screen, flush with the top edge. */
+.ledger-nav{top:0;left:0;right:0;width:100%;max-width:none;transform:none;height:64px;padding:0 6.25%;border-radius:0;box-shadow:0 1px 0 rgba(16,16,16,.08)}
+@media(max-width:760px){.ledger-nav{height:58px;padding:0 16px}}

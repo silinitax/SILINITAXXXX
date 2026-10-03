@@ -113,15 +113,17 @@ body[data-page=home] .app-status-icons b{width:18px;height:9px;margin-left:4px;b
 body[data-page=home] .app-screen{position:absolute;inset:34px 0 0;overflow:hidden}
 body[data-page=home] .app-track{display:flex;height:100%;width:max-content;will-change:transform}
 body[data-page=home] .app-shot{flex:none;display:block;width:284px;height:100%;object-fit:cover;object-position:top center}
-body[data-page=home] .journey-copy{position:absolute;z-index:4;top:0;left:max(24px,8vw);width:min(440px,36vw)}
-body[data-page=home] .copy-mask{position:relative;height:212px;overflow:hidden}
+body[data-page=home] .journey-copy{position:absolute;z-index:4;top:0}
+body[data-page=home] .journey-copy.is-stacked{text-align:center}
+body[data-page=home] .journey-copy.is-stacked .copy-item p{margin-left:auto;margin-right:auto}
+/* The story is driven by scroll alone; the jump buttons stay only for reduced motion. */
+body[data-page=home].motion-ledger .journey-tabs{display:none}
+body[data-page=home] .copy-mask{position:relative;overflow:hidden}
 body[data-page=home] .copy-item{position:absolute;inset:0;will-change:transform}
 body[data-page=home] .copy-item h3{margin:0;font-size:clamp(34px,3.4vw,50px);line-height:1.04;font-weight:600;letter-spacing:-.04em;color:var(--fx-ink);text-wrap:balance}
 body[data-page=home] .copy-item p{margin:16px 0 0;max-width:34ch;font-size:17px;line-height:1.5;color:var(--fx-ink-2)}
 body[data-page=home] .journey-copy .journey-tabs{position:static;transform:none;margin-top:18px;width:max-content;max-width:100%}
 @media(max-width:760px){
- body[data-page=home] .journey-copy{left:20px;right:20px;width:auto}
- body[data-page=home] .copy-mask{height:132px}
  body[data-page=home] .copy-item h3{font-size:26px}
  body[data-page=home] .copy-item p{margin-top:8px;font-size:15px;line-height:1.45}
  body[data-page=home] .journey-copy .journey-tabs{margin-top:10px}
@@ -130,3 +132,5 @@ body[data-page=home] .journey-copy .journey-tabs{position:static;transform:none;
 
 /* Footer in the yellow of the Scadenze card. */
 body[data-page=home] .ledger-footer{background:#f8da53;border-top:0;--fx-ink:#101010;--fx-ink-2:#2b2b2b;--fx-ink-3:#3d3d3d;--fx-hair:rgba(16,16,16,.18);color:#101010}
+body[data-page=home] .ledger-nav{box-shadow:0 1px 0 var(--fx-hair)}
+body[data-page=home] .journey-copy.is-stacked .journey-tabs{margin-left:auto;margin-right:auto}
