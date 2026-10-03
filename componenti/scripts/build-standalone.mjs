@@ -17,6 +17,7 @@ const salvo = b64('salvo-ok.webp', 'image/webp');
 const favicon = b64('favicon.svg', 'image/svg+xml');
 
 let js = read('app.js').toString()
+  .replace(/\/app-(home|tasse|fatture|scadenze)\.webp/g, (m, n) => b64(`app-${n}.webp`, 'image/webp'))
   .split('/salvo-ok.webp').join(salvo)
   .split('/app-icons.svg#').join('#')
   .split('"/chi-siamo/"').join('"./chi-siamo.html"').split('"/prezzi/"').join('"./prezzi.html"')

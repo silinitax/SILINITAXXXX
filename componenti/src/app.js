@@ -12,37 +12,23 @@ const btnIcon=name=>`<svg class="btn-icon" aria-hidden="true"><use href="/app-ic
 function cta(label='Parla con lo studio',secondary=false,message){return `<a class="ledger-button has-icon ${secondary?'secondary':''}" href="${whatsapp(message)}" target="_blank" rel="noopener">${btnIcon('r-whatsapp-logo')}${label}</a>`;}
 function header(){return `<header class="ledger-nav">${logo}<nav aria-label="Navigazione principale"><a href="/#funzioni">L’app</a><a href="/chi-siamo/">Lo studio</a><a href="/prezzi/">Piani</a></nav>${cta('Parla con lo studio',true)}</header>`;}
 function footer(){return `<footer class="ledger-footer"><div class="footer-top"><div>${logo}<p>La gestione fiscale della tua attività.<br> Con l’app e le persone dello studio.</p></div><div><h3>Esplora</h3><a href="/">L’app</a><a href="/chi-siamo/">Chi siamo</a><a href="/prezzi/">Piani</a></div><div><h3>Contatti</h3><a href="${whatsapp()}" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:info@studiosilini.it">info@studiosilini.it</a><a href="tel:+390350402086">035 040 2086</a><span>Pedrengo (BG)</span></div></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} SiliniTax</span><span>Schermate illustrative · dati dimostrativi</span></div></footer>`;}
-const appYear = new Date().getFullYear();
 const appIcon = name => `<svg class="appui-icon" aria-hidden="true"><use href="/app-icons.svg#${name}"/></svg>`;
-const appLogo = '<svg class="appui-mark" viewBox="0 0 40 28" aria-hidden="true"><path d="M3 25 12 5l8 15 7-12 10 17" fill="none" stroke="#0E1B3D" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 8l10 17" stroke="#2563EB" stroke-width="4.5" stroke-linecap="round"/></svg>';
-const appNav = active => `<div class="appui-tabbar">${[['home','r-house','Panoramica'],['tasse','r-chart-pie-slice','Tasse']].map(([key,icon,label]) => `<span class="appui-tab ${key === active ? 'is-active' : ''}">${appIcon(icon)}<small>${label}</small></span>`).join('')}<span class="appui-tab-center"><span>${appIcon('r-plus')}</span></span>${[['fatture','r-receipt','Fatture'],['scadenze','r-calendar-blank','Scadenze']].map(([key,icon,label]) => `<span class="appui-tab ${key === active ? 'is-active' : ''}">${appIcon(icon)}<small>${label}</small></span>`).join('')}</div>`;
-const appShell = (active, content) => `<div class="appui-status"><span>9:41</span><span class="appui-system"><i></i><i></i><i></i><b></b></span></div><div class="appui-view">${content}</div>${appNav(active)}`;
-const appAvatar = '<span class="appui-avatar">NG</span>';
-const appBigHead = (title, subtitle) => `<header class="appui-bighead"><div><h3>${title}</h3><p>${subtitle}</p></div>${appAvatar}</header>`;
-const appExample = `<div class="appui-example">${appIcon('r-eye')}<span>Stai guardando un <b>esempio</b></span></div>`;
-
-const screens = [
-  appShell('home', `${appExample}<header class="appui-brand-row"><div class="appui-brand">${appLogo}<div><b>SiliniTax</b><small>VERAMENTE SEMPLICI</small></div></div><div class="appui-brand-actions">${appIcon('r-bell')}${appAvatar}</div></header><section class="appui-home-hero"><div class="appui-greeting"><div><small>Ciao Nath,</small><h3>tutto sotto <em>controllo!</em></h3></div><img src="/salvo-ok.webp" alt=""></div><div class="appui-health"><i></i><b>Sei in ordine</b><span>Prossimo F24 30 nov</span></div><div class="appui-money"><small>Disponibile per te</small><strong>€ 18.420</strong><span>su € 25.000 incassati nel ${appYear} · stima</span></div><div class="appui-split"><i></i><i></i></div></section><section class="appui-acc"><div class="appui-acc-row"><i class="appui-blue-dot"></i><span><b>Da accantonare nel ${appYear}</b><small>il 26% di ogni incasso</small></span><strong>€ 6.580</strong></div><div class="appui-jar"><div><small>Nel salvadanaio</small><strong>€ 5.200</strong></div><span class="appui-pill">Metti da parte</span><div class="appui-progress"><i></i></div></div></section><section class="appui-next"><b>Prossime scadenze</b><span>Tutte</span><div><strong>30 <small>NOV</small></strong><span>F24 · secondo acconto<br> <small>Importo stimato</small></span></div></section>`),
-  appShell('tasse', `${appBigHead('Tasse', 'Prossimo F24 30 nov · importo stimato')}<div class="appui-segments"><b>Panoramica</b><span>F24</span><span>Dichiarazione</span></div><section class="appui-tax-hero"><small>Da mettere da parte fino a giugno ${appYear + 1}</small><strong>€ 8.120</strong><p>Il <b>26%</b> di ogni incasso · circa <b>€ 680 al mese</b></p><div class="appui-tax-jar"><img src="/salvo-ok.webp" alt=""><div><span>Nel salvadanaio</span><b>€ 5.200</b><div class="appui-progress"><i></i></div></div></div></section><section class="appui-white-card appui-tax-split"><div><span>Tasse previste ${appYear} <small>STIMA</small></span><b>€ 6.580</b></div><div><span>Imposta sostitutiva</span><b>€ 2.480</b></div><div><span>Contributi</span><b>€ 4.100</b></div></section><section class="appui-white-card appui-tax-next"><b>Prossime scadenze</b><div><strong>30 <small>NOV</small></strong><span>Secondo acconto F24<br> <small>Da verificare con lo studio</small></span></div></section>`),
-  appShell('fatture', `${appBigHead('Fatture', `18 nel ${appYear} · € 2.630 da incassare`)}<div class="appui-segments appui-two"><b>Fatture</b><span>Clienti</span></div><div class="appui-search"><span>${appIcon('r-magnifying-glass')} Cerca fatture</span><span>${appIcon('r-download-simple')} XML</span></div><div class="appui-filters"><b>Tutte <i>18</i></b><span>Da incassare <i>3</i></span><span>Incassate</span></div><div class="appui-month"><b>Settembre ${appYear}</b><strong>€ 4.920</strong></div><section class="appui-white-card appui-invoices"><div><i class="is-open"></i><span><b>Studio Ferrari Architetti</b><small>19 set · fattura 18 · scade 19 ott</small></span><strong>€ 1.420<small>Da incassare</small></strong></div><div><i class="is-paid"></i><span><b>Cantine Moroni</b><small>5 set · fattura 17 · incassata</small></span><strong>€ 1.680<small>Incassata</small></strong></div><div><i class="is-paid"></i><span><b>Albergo Sebino</b><small>2 set · fattura 16 · incassata</small></span><strong>€ 980<small>Incassata</small></strong></div></section><p class="appui-note">Registra le fatture o importa XML e P7M. L’emissione allo SDI resta nel tuo strumento abituale.</p>`),
-  appShell('scadenze', `${appBigHead('Scadenze', 'Prossimo F24 30 nov · importo stimato')}<div class="appui-filters appui-due-filters"><b>Prossime</b><span>Passate e pagate</span><span>Tutte</span></div><h4 class="appui-group-title">Quello che devi sapere adesso</h4><section class="appui-white-card appui-due-list"><div><strong>30 <small>NOV</small></strong><span><b>F24 · secondo acconto</b><small>Scade il 30 novembre</small></span><em>Da pagare</em></div></section><h4 class="appui-group-title">Più avanti</h4><section class="appui-white-card appui-due-list"><div><strong>16 <small>FEB</small></strong><span><b>Bollo fatture elettroniche</b><small>Importo stimato</small></span><em>Da pagare</em></div><div><strong>30 <small>GIU</small></strong><span><b>F24 · saldo e acconto</b><small>Importo da verificare</small></span><em>Previsto</em></div></section><p class="appui-note">Segna gli F24 pagati: il dato aggiorna i calcoli dell’app.</p>`)
-];
-
 
 const features=[
- ['Panoramica','I tuoi numeri,<br> insieme.','Incassi, disponibile e somme da accantonare. Una vista per sapere a che punto sei.','r-house'],
- ['Tasse','Sai quanto<br> mettere da parte.','Una stima di tasse e contributi, aggiornata con i dati che registri.','r-chart-pie-slice'],
- ['Fatture','Vedi cosa manca<br> all’incasso.','Registri le fatture, importi XML e distingui i pagamenti ricevuti da quelli attesi.','r-receipt'],
- ['Scadenze','La prossima<br> scadenza è qui.','Date in ordine e pagamenti da confermare. Gli importi si verificano con lo studio.','r-calendar-blank']
+ ['Panoramica','Quanto resta<br> davvero a te.','Il disponibile dopo tasse e contributi, gli incassi dell’anno e cosa ti aspetta nei prossimi giorni.','r-house'],
+ ['Tasse','Sai quanto<br> mettere da parte.','Una stima di tasse e contributi fino al prossimo saldo, con la quota da accantonare ogni mese.','r-chart-pie-slice'],
+ ['Fatture','Vedi cosa manca<br> all’incasso.','Le fatture mese per mese, l’importazione XML e un tocco per segnare un pagamento come incassato.','r-receipt'],
+ ['Scadenze','La prossima<br> scadenza è qui.','F24 e dichiarazioni in ordine di data, con quello di cui si occupa lo studio già indicato.','r-calendar-blank']
 ];
 const principles=[
  ['Leggere i numeri','Mettere le informazioni importanti in un ordine comprensibile.'],
  ['Preparare il prossimo passo','Capire quali documenti e verifiche richiedono attenzione.'],
  ['Parlare con qualcuno','Affrontare i dubbi con le persone dello studio, senza lasciare tutto a una schermata.']
 ];
+const journeyNav=()=>`<nav class="journey-tabs" aria-label="Funzioni dell’app">${features.map(([label],i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}">${label}</button>`).join('')}</nav>`;
 function home(){return `<main id="main">
 <section class="ledger-intro"><div class="intro-copy"><h1>Tutto il tuo fisco.<br> In una sola app.</h1><p>Incassi, tasse e scadenze in una vista chiara.<br> Con il supporto delle persone di Studio Silini.</p><div class="ledger-actions"><a class="ledger-button" href="#funzioni">Esplora l’app<span class="button-symbol">${appIcon('r-arrow-down')}</span></a>${cta('Parla con lo studio',true)}</div></div></section>
-<section class="ledger-journey" aria-label="Esplora l’app SiliniTax, schermate illustrative"><div class="journey-stage"><div class="journey-frame" aria-hidden="true"><div class="journey-window"></div></div>${ledgerExperience(appIcon,appLogo,appYear,screens)}<nav class="journey-tabs" aria-label="Funzioni dell’app">${features.map(([label],i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}">${label}</button>`).join('')}</nav></div></section>
+<section class="ledger-journey" aria-label="Esplora l’app SiliniTax"><div class="journey-stage"><div class="journey-frame" aria-hidden="true"><div class="journey-window"></div></div>${ledgerExperience(features,journeyNav())}</div></section>
 <section class="ledger-about" id="studio"><h2 class="about-title">I numeri aiutano.<br> Le persone<br> <span>chiariscono.</span></h2><div class="about-summary"><p>Crediamo che il fisco debba essere più comprensibile. L’app mette in ordine le informazioni. Le persone dello studio ti aiutano a leggerle e a scegliere il prossimo passo.</p><a class="ledger-button secondary" href="/chi-siamo/">Il nostro approccio</a></div></section>
 <section class="ledger-platform" id="funzioni"><div class="platform-stage"><div class="feature-deck">${features.map(([label,title,copy,icon],i)=>`<article class="deck-card card-${i}"><div class="deck-icon">${appIcon(icon)}</div><h3>${label}</h3><p>${copy}</p></article>`).join('')}</div><h2>La tua attività.<br> Più semplice<br> da leggere.</h2></div></section>
 <section class="ledger-product" id="come-lavoriamo"><div class="product-layout"><div class="product-copy"><h2>Meno dubbi.<br> Più chiarezza.</h2><p>Parti dai tuoi dati, poi confrontati con lo studio.</p><div class="ledger-actions">${cta()}<a class="ledger-button secondary" href="/prezzi/">Esplora i piani</a></div></div><ol class="work-steps">${principles.map(([title,copy])=>`<li><h3>${title}</h3><p>${copy}</p></li>`).join('')}</ol></div></section>
@@ -74,32 +60,29 @@ if(page==='home'){
  }
  if(fluid)ScrollTrigger.create({start:0,end:'max',refreshPriority:-1,onUpdate:self=>fluid.setScroll(self.progress)});
  const section=document.querySelector('.ledger-journey'),stage=section.querySelector('.journey-stage');
- const {render,tabs,actions,measure}=createLedgerMotion(section);
+ const {render,tabs,measure}=createLedgerMotion(section);
  const intro=document.querySelector('.ledger-intro');
  let journey;
  const approach=()=>track(window.scrollY,0,intro.offsetHeight);
  // The liquid behind the phone grows with it while the phone scales up to fill the screen.
  const update=p=>{render(p,approach());fluidCanvas.style.scale=String(1+.35*track(p,0,.145));};
  // Hand-off after the phone story: the pin holds the phone one screen longer and the studio chapter is
- // pulled up to overlap that screen, so its title rises over the phone, which loses focus and fades.
+ // pulled up to overlap that screen, so its title rises right under the phone as it slides away.
  // The light matte film starts after the studio chapter (fluid.css).
  const about=document.querySelector('.ledger-about');
- const storyLen=()=>innerHeight*(innerWidth<761?3.5:4),handoffLen=()=>innerHeight;
+ const storyLen=()=>innerHeight*(innerWidth<761?3:3.4),handoffLen=()=>innerHeight;
  const storyShare=()=>storyLen()/(storyLen()+handoffLen());
  // The pinned stage (75dvh, held 25% down) ends at the bottom of the screen, so pulling the chapter up
  // by one hand-off makes it enter exactly when the hand-off starts.
  // Runs on refreshInit, before ScrollTrigger measures, so the dark-chapter triggers see the final layout.
  const overlapFilm=()=>{about.style.marginTop=-handoffLen()+'px';};
+ // The phone and its copy leave crisply: the stage slides up with the rising chapter, no fade or blur.
  function handoff(e){
-  const fade=track(e,.05,.6);
-  stage.style.opacity=fade?String(1-fade):'';
-  stage.style.visibility=fade===1?'hidden':'';
-  stage.style.filter=fade?`blur(${(12*fade).toFixed(2)}px)`:'';
-  stage.style.scale=fade?String(1-.06*fade):'';
-  stage.style.translate=fade?`0 ${(-4*fade).toFixed(2)}vh`:'';
+  stage.style.translate=e?`0 ${(-100*e).toFixed(2)}vh`:'';
+  stage.style.visibility=e>=1?'hidden':'';
  }
  const advance=t=>{const share=storyShare();update(Math.min(1,t/share));handoff(Math.max(0,(t-share)/(1-share)));};
- update(Math.max(0,Math.min(1,(scrollY-intro.offsetHeight+innerHeight*.25)/(innerHeight*(innerWidth<761?3.5:4)))));
+ update(Math.max(0,Math.min(1,(scrollY-intro.offsetHeight+innerHeight*.25)/storyLen())));
  mm.add('(prefers-reduced-motion: no-preference)',()=>{
   document.body.classList.add('motion-ledger');
   overlapFilm();ScrollTrigger.addEventListener('refreshInit',overlapFilm);
@@ -120,8 +103,7 @@ if(page==='home'){
   document.body.classList.add('reduced-ledger');render(cardStops()[0],1,true);
   return()=>document.body.classList.remove('reduced-ledger');
  });
- tabs.forEach((b,i)=>b.addEventListener('click',()=>{if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+storyLen()*cardStops()[i],behavior:'smooth'});}else{render(i===3?.96:cardStops()[i],1,true);}}));
- actions.forEach((b,i)=>b.addEventListener('click',()=>{const stop=[.51,.75,.96][i];if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+storyLen()*stop,behavior:'smooth'});}else render(stop,1,true);}));
+ tabs.forEach((b,i)=>b.addEventListener('click',()=>{if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+storyLen()*cardStops()[i],behavior:'smooth'});}else{render(cardStops()[i],1,true);}}));
  document.fonts.ready.then(()=>{measure();ScrollTrigger.refresh();if(journey)advance(journey.progress());});
  addEventListener('pageshow',()=>{if(journey)advance(journey.progress());});
  addEventListener('resize',()=>{measure();if(journey)advance(journey.progress());});
