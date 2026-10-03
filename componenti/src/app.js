@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { createLedgerMotion, ledgerExperience, cardStops, track } from './ledger-motion';
+import { createLedgerMotion, ledgerExperience, track, ENTRY_END } from './ledger-motion';
+import screens from './story';
 import { startFluid } from './fluid';
 gsap.registerPlugin(ScrollTrigger);
 const page=document.body.dataset.page;
@@ -25,10 +26,10 @@ const principles=[
  ['Preparare il prossimo passo','Capire quali documenti e verifiche richiedono attenzione.'],
  ['Parlare con qualcuno','Affrontare i dubbi con le persone dello studio, senza lasciare tutto a una schermata.']
 ];
-const journeyNav=()=>`<nav class="journey-tabs" aria-label="Funzioni dell’app">${features.map(([label],i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}">${label}</button>`).join('')}</nav>`;
+const journeyNav=()=>`<nav class="journey-tabs" aria-label="Funzioni dell’app">${screens.map(({label},i)=>`<button type="button" data-stop="${i}" aria-pressed="${i===0}"><span>${label}</span></button>`).join('')}</nav>`;
 function home(){return `<main id="main">
 <section class="ledger-intro"><div class="intro-copy"><h1>Tutto il tuo fisco.<br> In una sola app.</h1><p>Incassi, tasse e scadenze in una vista chiara.<br> Con il supporto delle persone di Studio Silini.</p><div class="ledger-actions"><a class="ledger-button" href="#funzioni">Esplora l’app<span class="button-symbol">${appIcon('r-arrow-down')}</span></a>${cta('Parla con lo studio',true)}</div></div></section>
-<section class="ledger-journey" aria-label="Esplora l’app SiliniTax"><div class="journey-stage"><div class="journey-frame" aria-hidden="true"><div class="journey-window"></div></div>${ledgerExperience(features,journeyNav())}</div></section>
+<section class="ledger-journey" aria-label="Esplora l’app SiliniTax"><div class="journey-stage"><div class="journey-frame" aria-hidden="true"><div class="journey-window"></div></div>${ledgerExperience(screens,journeyNav())}</div></section>
 <section class="ledger-about" id="studio"><h2 class="about-title">I numeri aiutano.<br> Le persone<br> <span>chiariscono.</span></h2><div class="about-summary"><p>Crediamo che il fisco debba essere più comprensibile. L’app mette in ordine le informazioni. Le persone dello studio ti aiutano a leggerle e a scegliere il prossimo passo.</p><a class="ledger-button secondary" href="/chi-siamo/">Il nostro approccio</a></div></section>
 <section class="ledger-platform" id="funzioni"><div class="platform-stage"><div class="feature-deck">${features.map(([label,title,copy,icon],i)=>`<article class="deck-card card-${i}"><div class="deck-icon">${appIcon(icon)}</div><h3>${label}</h3><p>${copy}</p></article>`).join('')}</div><h2>La tua attività.<br> Più semplice<br> da leggere.</h2></div></section>
 <section class="ledger-product" id="come-lavoriamo"><div class="product-layout"><div class="product-copy"><h2>Meno dubbi.<br> Più chiarezza.</h2><p>Parti dai tuoi dati, poi confrontati con lo studio.</p><div class="ledger-actions">${cta()}<a class="ledger-button secondary" href="/prezzi/">Esplora i piani</a></div></div><ol class="work-steps">${principles.map(([title,copy])=>`<li><h3>${title}</h3><p>${copy}</p></li>`).join('')}</ol></div></section>
@@ -60,17 +61,17 @@ if(page==='home'){
  }
  if(fluid)ScrollTrigger.create({start:0,end:'max',refreshPriority:-1,onUpdate:self=>fluid.setScroll(self.progress)});
  const section=document.querySelector('.ledger-journey'),stage=section.querySelector('.journey-stage');
- const {render,tabs,measure}=createLedgerMotion(section);
+ const {render,tabs,measure,stops,first,current,steps}=createLedgerMotion(section,screens);
  const intro=document.querySelector('.ledger-intro');
  let journey;
  const approach=()=>track(window.scrollY,0,intro.offsetHeight);
  // The liquid behind the phone grows with it while the phone scales up to fill the screen.
- const update=p=>{render(p,approach());fluidCanvas.style.scale=String(1+.35*track(p,0,.145));};
+ const update=p=>{render(p,approach());fluidCanvas.style.scale=String(1+.35*track(p,0,ENTRY_END*1.2));};
  // Hand-off after the phone story: the pin holds the phone one screen longer and the studio chapter is
  // pulled up to overlap that screen, so its title rises right under the phone as it slides away.
  // The light matte film starts after the studio chapter (fluid.css).
  const about=document.querySelector('.ledger-about');
- const storyLen=()=>innerHeight*(innerWidth<761?3:3.4),handoffLen=()=>innerHeight;
+ const storyLen=()=>innerHeight*(innerWidth<761?6.2:7),handoffLen=()=>innerHeight;
  const storyShare=()=>storyLen()/(storyLen()+handoffLen());
  // The pinned stage (75dvh, held 25% down) ends at the bottom of the screen, so pulling the chapter up
  // by one hand-off makes it enter exactly when the hand-off starts.
@@ -100,10 +101,16 @@ if(page==='home'){
   };
  });
  mm.add('(prefers-reduced-motion: reduce)',()=>{
-  document.body.classList.add('reduced-ledger');render(cardStops()[0],1,true);
+  document.body.classList.add('reduced-ledger');render(stops[0],1,true);
   return()=>document.body.classList.remove('reduced-ledger');
  });
- tabs.forEach((b,i)=>b.addEventListener('click',()=>{if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+storyLen()*cardStops()[i],behavior:'smooth'});}else{render(cardStops()[i],1,true);}}));
+ // A tab leads to the first step of its screen. Without motion there is no scroll, so pressing the tab of the
+ // screen already shown moves on to its next step instead.
+ tabs.forEach((b,i)=>b.addEventListener('click',()=>{
+  if(journey){const st=journey.scrollTrigger;window.scrollTo({top:st.start+storyLen()*stops[first[i]],behavior:'smooth'});return;}
+  const j=current(),next=i===tabs.findIndex(t=>t.getAttribute('aria-pressed')==='true')?(j+1<(first[i+1]??steps)?j+1:first[i]):first[i];
+  render(stops[next],1,true);
+ }));
  document.fonts.ready.then(()=>{measure();ScrollTrigger.refresh();if(journey)advance(journey.progress());});
  addEventListener('pageshow',()=>{if(journey)advance(journey.progress());});
  addEventListener('resize',()=>{measure();if(journey)advance(journey.progress());});

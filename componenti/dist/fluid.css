@@ -111,26 +111,48 @@ body[data-page=home] .app-status-icons i{width:3px;height:8px;border-radius:1px;
 body[data-page=home] .app-status-icons i+i{height:10px}
 body[data-page=home] .app-status-icons b{width:18px;height:9px;margin-left:4px;border-radius:3px;border:1.5px solid #0e1b3d}
 body[data-page=home] .app-screen{position:absolute;inset:34px 0 0;overflow:hidden}
-body[data-page=home] .app-track{display:flex;height:100%;width:max-content;will-change:transform}
-body[data-page=home] .app-shot{flex:none;display:block;width:284px;height:100%;object-fit:cover;object-position:top center}
+/* A camera moves over the four screens laid side by side; a ring marks the area being explained.
+   The phone is not promoted to its own layer, so the app is drawn again at the scale it is shown: sharp text. */
+body[data-page=home] .ledger-phone{will-change:auto}
+body[data-page=home] .app-camera{position:absolute;left:0;top:0;height:100%;width:max-content;transform-origin:0 0}
+body[data-page=home] .app-track{display:flex;height:100%;width:max-content}
+body[data-page=home] .app-page{position:relative;flex:none;width:284px;height:100%}
+body[data-page=home] .app-shot{display:block;width:284px;height:100%;object-fit:cover;object-position:top center}
+body[data-page=home] .app-ring{position:absolute;left:0;top:0;box-sizing:border-box;width:0;height:0;opacity:0;pointer-events:none;border:calc(2.5px/var(--z,1)) solid #2563eb;border-radius:14px;box-shadow:0 0 0 calc(5px/var(--z,1)) rgba(37,99,235,.2)}
 body[data-page=home] .journey-copy{position:absolute;z-index:4;top:0}
 body[data-page=home] .journey-copy.is-stacked{text-align:center}
 body[data-page=home] .journey-copy.is-stacked .copy-item p{margin-left:auto;margin-right:auto}
-/* The story is driven by scroll alone; the jump buttons stay only for reduced motion. */
-body[data-page=home].motion-ledger .journey-tabs{display:none}
 body[data-page=home] .copy-mask{position:relative;overflow:hidden}
 body[data-page=home] .copy-item{position:absolute;inset:0;will-change:transform}
-body[data-page=home] .copy-item h3{margin:0;font-size:clamp(34px,3.4vw,50px);line-height:1.04;font-weight:600;letter-spacing:-.04em;color:var(--fx-ink);text-wrap:balance}
-body[data-page=home] .copy-item p{margin:16px 0 0;max-width:34ch;font-size:17px;line-height:1.5;color:var(--fx-ink-2)}
-body[data-page=home] .journey-copy .journey-tabs{position:static;transform:none;margin-top:18px;width:max-content;max-width:100%}
+body[data-page=home] .copy-eyebrow{display:block;font-size:12px;line-height:16px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#2563eb;font-variant-numeric:tabular-nums}
+body[data-page=home] .copy-item h3{margin:12px 0 0;font-size:clamp(32px,3vw,46px);line-height:1.05;font-weight:600;letter-spacing:-.04em;color:var(--fx-ink);text-wrap:balance}
+body[data-page=home] .copy-item p{margin:14px 0 0;max-width:36ch;font-size:17px;line-height:1.5;color:var(--fx-ink-2)}
+/* The key figure of the step, on the other side of the phone, joined to it by a thin pointer. */
+body[data-page=home] .journey-stat{position:absolute;z-index:4;top:0}
+body[data-page=home] .journey-stat.is-off{visibility:hidden}
+body[data-page=home] .journey-stat::before{content:'';position:absolute;top:50%;left:-48px;width:36px;height:2px;margin-top:-1px;border-radius:2px;background:#2563eb}
+body[data-page=home] .journey-stat::after{content:'';position:absolute;top:50%;left:-56px;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#2563eb}
+body[data-page=home] .stat-mask{position:relative;overflow:hidden}
+body[data-page=home] .stat-item{position:absolute;inset:0;will-change:transform}
+body[data-page=home] .stat-item strong{display:block;font-size:clamp(46px,5vw,76px);line-height:1;font-weight:600;letter-spacing:-.05em;color:var(--fx-ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+body[data-page=home] .stat-item span{display:block;margin-top:12px;max-width:26ch;font-size:16px;line-height:1.35;color:var(--fx-ink-2)}
+/* The jump buttons become the progress of the story: one bar per screen, filled as its steps are reached. */
+body[data-page=home] .journey-copy .journey-tabs{position:static;transform:none;margin-top:22px;width:100%;max-width:420px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0;border-radius:0;background:none;box-shadow:none}
+body[data-page=home] .journey-copy .journey-tabs button{position:relative;padding:13px 0 0;border-radius:0;background:none;text-align:left;font-size:13px;font-weight:500;color:var(--fx-ink-3);transition:color .24s}
+body[data-page=home] .journey-copy .journey-tabs button[aria-pressed=true]{background:none;color:var(--fx-ink)}
+body[data-page=home] .journey-copy .journey-tabs button::before,body[data-page=home] .journey-copy .journey-tabs button::after{content:'';position:absolute;inset:0 0 auto;height:3px;border-radius:3px}
+body[data-page=home] .journey-copy .journey-tabs button::before{background:var(--fx-hair)}
+body[data-page=home] .journey-copy .journey-tabs button::after{background:#2563eb;transform-origin:0 50%;transform:scaleX(var(--fill,0))}
 @media(max-width:760px){
- body[data-page=home] .copy-item h3{font-size:26px}
+ body[data-page=home] .copy-item h3{margin-top:8px;font-size:26px}
+ body[data-page=home] .copy-eyebrow{font-size:11px;line-height:14px}
  body[data-page=home] .copy-item p{margin-top:8px;font-size:15px;line-height:1.45}
- body[data-page=home] .journey-copy .journey-tabs{margin-top:10px}
- body[data-page=home] .journey-copy .journey-tabs button{padding:9px 10px;font-size:12px}
+ body[data-page=home] .journey-copy .journey-tabs{margin-top:12px}
+ body[data-page=home] .journey-copy .journey-tabs button{padding:11px 0 0;font-size:12px;text-align:center}
 }
 
 /* Footer in the yellow of the Scadenze card. */
 body[data-page=home] .ledger-footer{background:#f8da53;border-top:0;--fx-ink:#101010;--fx-ink-2:#2b2b2b;--fx-ink-3:#3d3d3d;--fx-hair:rgba(16,16,16,.18);color:#101010}
 body[data-page=home] .ledger-nav{box-shadow:0 1px 0 var(--fx-hair)}
 body[data-page=home] .journey-copy.is-stacked .journey-tabs{margin-left:auto;margin-right:auto}
+body[data-page=home] .journey-copy.is-stacked .journey-tabs button{text-align:center}

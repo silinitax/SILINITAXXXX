@@ -13,7 +13,8 @@ I contatti e i collegamenti esterni richiedono una connessione.
 La cartella componenti contiene i sorgenti e la versione compilata per chi deve modificare il progetto.
 
 PER MODIFICARE IL SITO (sviluppatori o strumenti come ruflo)
-- Sorgenti: componenti/src (app.js = pagine e animazioni, ledger-motion.js = storia del telefono, fluid.js = sfondo animato).
+- Sorgenti: componenti/src (app.js = pagine e animazioni, ledger-motion.js = movimento del telefono, story.js = testi, cifre e zone evidenziate dei 12 passi del telefono, fluid.js = sfondo animato).
+- Per cambiare la spiegazione del telefono basta modificare componenti/src/story.js: ogni passo ha titolo, testo, cifra grande e il rettangolo da evidenziare sulla schermata.
 - Stili: componenti/dist/style.css (tutte le pagine) e componenti/dist/fluid.css (solo home).
 - Schermate dell'app nel telefono: componenti/dist/app-home|tasse|fatture|scadenze.webp.
 - Dopo una modifica, dalla cartella componenti:
