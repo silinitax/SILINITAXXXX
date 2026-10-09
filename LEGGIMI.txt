@@ -22,3 +22,15 @@ PER MODIFICARE IL SITO (sviluppatori o strumenti come ruflo)
     node scripts/build-standalone.mjs     (rigenera APRI-SITO.html, chi-siamo.html, prezzi.html)
 - Anteprima con server: cd componenti/dist && python3 -m http.server 4600, poi http://localhost:4600
 Le schermate dell’app usano dati dimostrativi: questa è l’anteprima del sito di presentazione.
+
+PAGINA CHI SIAMO — FILE DA AGGIUNGERE NELLA CARTELLA assets (accanto a chi-siamo.html)
+- assets/foto-hero.jpg      La tua foto per la sezione iniziale. Si fonde da sola nello sfondo,
+                            senza cornici. Consigliata orizzontale, almeno 2000px di larghezza,
+                            con il soggetto sulla destra. Finché manca, si vede lo spazio vuoto
+                            con la scritta "Spazio per la tua foto".
+- assets/salvo-corsa.webp   La mascotte in corsa, sfondo trasparente, rivolta a destra.
+                            Quando c'è, il maiale attraversa lo schermo con lo scroll prima di
+                            "Parliamo della tua attività?". Finché manca, la sezione mostra solo
+                            la domanda e il pulsante.
+- Già richiesti dalla pagina e ancora mancanti: assets/studio-social.mp4,
+  assets/studio-social-poster.jpg (video nel telefono) e assets/salvo-appoggiato.webp (footer).
