@@ -20,7 +20,7 @@ Successo: il visitatore scrive allo studio (WhatsApp, email o telefono) per parl
 
 ## Positioning
 
-Uno studio di famiglia, da tre generazioni al fianco delle Partite IVA, che usa il digitale per migliorare il servizio. Non è un'app che sostituisce il commercialista. La tecnologia prepara il lavoro, le persone dello studio aiutano a decidere.
+Uno studio di famiglia, da tre generazioni al fianco delle Partite IVA, che usa il digitale per migliorare il servizio. Non è un'app che sostituisce il consulente. La tecnologia prepara il lavoro, le persone dello studio aiutano a decidere.
 
 ## Operating Context
 
@@ -38,6 +38,8 @@ Uno studio di famiglia, da tre generazioni al fianco delle Partite IVA, che usa 
 ## Brand Commitments
 
 - Nome: SiliniTax, collegato a Studio Silini.
+- Il titolare si presenta come **consulente fiscale**. Non scrivere mai "commercialista" (né per lui né per lo studio) in nessun testo del sito.
+- La foto della hero di Chi siamo è la sua; didascalia: "Consulente fiscale · Studio Silini, Pedrengo (BG)". Il nome si aggiunge solo quando lo fornisce.
 - Mascotte ufficiale: **Salvo**, un maialino salvadanaio blu con una moneta d'oro nella fessura. Il nome si può usare nei testi. La mascotte deve restare fedele al suo aspetto originale.
 - Storia dello studio: "da tre generazioni" è la formula verificata. **Non usare "cinquant'anni"** né altre cifre sugli anni di attività.
 - Tono: concreto, diretto, moderno, a volte leggermente provocatorio. Mai slogan da azienda tecnologica o testi istituzionali lunghi. Il rapporto umano viene prima della tecnologia.
