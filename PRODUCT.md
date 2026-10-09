@@ -41,7 +41,7 @@ Uno studio di famiglia, da tre generazioni al fianco delle Partite IVA, che usa 
 - Il titolare si presenta come **consulente fiscale**. Non scrivere mai "commercialista" (né per lui né per lo studio) in nessun testo del sito.
 - La foto della hero di Chi siamo è la sua; didascalia: "Consulente fiscale · Studio Silini, Pedrengo (BG)". Il nome si aggiunge solo quando lo fornisce.
 - Mascotte ufficiale: **Salvo**, un maialino salvadanaio blu con una moneta d'oro nella fessura. Il nome si può usare nei testi. La mascotte deve restare fedele al suo aspetto originale.
-- Storia dello studio: "da tre generazioni" è la formula verificata. **Non usare "cinquant'anni"** né altre cifre sugli anni di attività.
+- Storia dello studio: "da tre generazioni" è la formula verificata; il titolare conferma anche "tradizione secolare" (studio che, da una tradizione di famiglia, ha scelto di modernizzarsi). **Non usare "cinquant'anni"** né altre cifre sugli anni di attività.
 - Tono: concreto, diretto, moderno, a volte leggermente provocatorio. Mai slogan da azienda tecnologica o testi istituzionali lunghi. Il rapporto umano viene prima della tecnologia.
 - Vincolo visivo dato dal titolare: palette blu, blu navy, bianco e grigio. Il footer giallo è approvato.
 
